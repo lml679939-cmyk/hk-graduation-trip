@@ -644,9 +644,11 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
 }
 .split-field input:focus,
 .split-field select:focus { outline: 2px solid var(--yellow); outline-offset: 1px; }
-.split-amount-wrap { display: flex; gap: 0; }
-.split-amount-wrap input { flex: 1; border-right: none; }
-.split-amount-wrap select { width: 72px; border-left: 2px solid var(--navy); flex-shrink: 0; }
+.split-amount-wrap { display: flex; border: 2px solid var(--navy); background: #fff; }
+.split-amount-wrap input { flex: 1; min-width: 0; border: none; padding: 8px 10px; background: transparent; font-size: 14px; font-family: inherit; color: var(--ink); }
+.split-amount-wrap select { width: 68px; border: none; border-left: 2px solid var(--navy); flex-shrink: 0; padding: 8px 4px; background: transparent; font-size: 14px; font-family: inherit; color: var(--ink); }
+.split-amount-wrap:focus-within { outline: 2px solid var(--yellow); outline-offset: 1px; }
+.split-amount-wrap input:focus, .split-amount-wrap select:focus { outline: none; }
 .split-label-hint { font-weight: 400; font-size: 12px; opacity: 0.6; }
 .split-receipt-wrap { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .split-receipt-preview { height: 60px; width: auto; max-width: 120px; object-fit: cover; border: 2px solid var(--navy); border-radius: 4px; }
