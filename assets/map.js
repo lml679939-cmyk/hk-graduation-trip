@@ -9,40 +9,40 @@ const EXCHANGE_COLOR = "#2e8b57";
 
 const EXCHANGE_PLACES = [
   {
+    name: "太子／旺角站附近找換店",
+    desc: "Day 1・鄰近飯店（太子站）・下機後第一站換匯首選",
+    lat: 22.3319, lng: 114.1643,
+    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Prince+Edward+MTR+Hong+Kong"
+  },
+  {
+    name: "旺角朗豪坊旁找換店",
+    desc: "Day 1・彌敦道／朗豪坊逛街路線必經・多家可比較",
+    lat: 22.3185, lng: 114.1686,
+    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Langham+Place+Mong+Kok"
+  },
+  {
     name: "重慶大廈找換店",
-    desc: "尖沙咀彌敦道36-44號・匯率最優・多家可比較",
+    desc: "Day 2・全港匯率最優・鄰近九龍公園・尖沙咀行程必換",
     lat: 22.2969, lng: 114.1716,
-    url: "https://www.google.com/maps/search/?api=1&query=Chungking+Mansions+Tsim+Sha+Tsui"
+    url: "https://www.google.com/maps/search/?api=1&query=Chungking+Mansions+money+exchange"
   },
   {
-    name: "旺角找換街（西洋菜南街）",
-    desc: "旺角行人專用區一帶・多家找換店集中",
-    lat: 22.3185, lng: 114.1693,
-    url: "https://www.google.com/maps/search/?api=1&query=Sai+Yeung+Choi+Street+South+Mong+Kok"
-  },
-  {
-    name: "旺角找換（彌敦道）",
-    desc: "彌敦道沿線・鄰近朗豪坊",
-    lat: 22.3163, lng: 114.1686,
-    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Nathan+Road+Mong+Kok"
-  },
-  {
-    name: "尖沙咀找換店（彌敦道）",
-    desc: "尖沙咀彌敦道中段・鄰近星光大道",
-    lat: 22.2997, lng: 114.1722,
-    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Nathan+Road+Tsim+Sha+Tsui"
-  },
-  {
-    name: "灣仔找換店（軒尼詩道）",
-    desc: "灣仔軒尼詩道沿線・多家集中",
-    lat: 22.2773, lng: 114.1738,
+    name: "灣仔甘牌燒鵝附近找換店",
+    desc: "Day 2・甘牌燒鵝（軒尼詩道）午餐前後順便換",
+    lat: 22.2771, lng: 114.1740,
     url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Hennessy+Road+Wan+Chai"
   },
   {
     name: "堅尼地城找換店",
-    desc: "西區・鄰近 Day 2 行程",
-    lat: 22.2832, lng: 114.1292,
+    desc: "Day 2・堅尼地城站附近・籃球場／咖啡館行程一帶",
+    lat: 22.2816, lng: 114.1295,
     url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Kennedy+Town+Hong+Kong"
+  },
+  {
+    name: "中環站附近找換店",
+    desc: "Day 2・天星碼頭→太平山纜車路線上・搭纜車前可換",
+    lat: 22.2824, lng: 114.1578,
+    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Central+MTR+Hong+Kong"
   }
 ];
 
