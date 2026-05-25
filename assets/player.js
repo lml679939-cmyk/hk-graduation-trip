@@ -53,10 +53,51 @@ PLAYLIST.forEach(group => {
 });
 
 /* ── 播放器狀態 ── */
-let currentIdx  = -1;
-let shuffleOn   = false;
-let shuffleQueue = [];   // 隨機順序的索引陣列
-let shufflePos  = -1;    // 目前在 shuffleQueue 的位置
+let currentIdx   = -1;
+let shuffleOn    = false;
+let shuffleQueue = [];
+let shufflePos   = -1;
+
+const PLAYER_STATE_KEY = 'hkPlayer_v1';
+
+function savePlayerState() {
+  try {
+    const panel = document.querySelector('.mp-panel');
+    localStorage.setItem(PLAYER_STATE_KEY, JSON.stringify({
+      currentIdx,
+      shuffleOn,
+      shuffleQueue,
+      shufflePos,
+      panelOpen: panel ? panel.classList.contains('open') : false
+    }));
+  } catch (_) {}
+}
+
+function restorePlayerState() {
+  try {
+    const raw = localStorage.getItem(PLAYER_STATE_KEY);
+    if (!raw) return;
+    const s = JSON.parse(raw);
+    if (typeof s.currentIdx !== 'number' || s.currentIdx < 0 || s.currentIdx >= FLAT_SONGS.length) return;
+
+    shuffleOn    = !!s.shuffleOn;
+    shuffleQueue = Array.isArray(s.shuffleQueue) ? s.shuffleQueue : [];
+    shufflePos   = typeof s.shufflePos === 'number' ? s.shufflePos : -1;
+
+    if (shuffleOn) {
+      const btn = document.getElementById('mpShuffle');
+      if (btn) { btn.classList.add('shuffle-on'); btn.textContent = '🔀 隨機 ON'; }
+    }
+    if (s.panelOpen) {
+      const panel = document.querySelector('.mp-panel');
+      if (panel) panel.classList.add('open');
+    }
+
+    playSong(s.currentIdx);
+  } catch (_) {}
+}
+
+window.addEventListener('beforeunload', savePlayerState);
 
 /* ── 工具：產生隨機佇列（排除當前）── */
 function buildShuffleQueue(excludeIdx) {
@@ -102,6 +143,8 @@ function playSong(idx) {
     const pos = shuffleQueue.indexOf(idx);
     if (pos !== -1) shufflePos = pos;
   }
+
+  savePlayerState();
 }
 
 /* ── 下一首 ── */
@@ -211,7 +254,11 @@ function buildPlayer() {
     btn.classList.toggle("shuffle-on", shuffleOn);
     btn.textContent = shuffleOn ? "🔀 隨機 ON" : "🔀 隨機";
     if (shuffleOn) buildShuffleQueue(currentIdx);
+    savePlayerState();
   });
 }
 
-document.addEventListener("DOMContentLoaded", buildPlayer);
+document.addEventListener("DOMContentLoaded", () => {
+  buildPlayer();
+  restorePlayerState();
+});
