@@ -134,6 +134,20 @@ main {
   display: inline-block;
 }
 .section-desc { color: #555; margin: 0 0 24px; font-weight: 500; }
+.sheet-link {
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy-2);
+  background: #e8edf8;
+  border: 1.5px solid var(--navy-2);
+  border-radius: 6px;
+  padding: 3px 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  margin-left: auto;
+}
+.sheet-link:hover { background: var(--navy-2); color: #fff; }
 
 /* ===== Day tabs ===== */
 .day-tabs {
