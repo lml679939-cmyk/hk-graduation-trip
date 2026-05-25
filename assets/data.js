@@ -7,8 +7,8 @@ const ITINERARY = [
     day: 1,
     date: "6/29（一）",
     status: "done",
-    title: "台灣 ⭢ 港機 ⭢ 旺角",
-    route: "金華冰廳 ➔ 彌敦道 & 朗豪坊 ➔ 女人街 ➔ 龍城冰室 ➔ 波鞋街 ➔ 花園街街市 ➔ 旺角天橋 ➔ 金魚街",
+    title: "台灣 → 港機 → 旺角",
+    route: "金華冰廳 → 彌敦道 & 朗豪坊 → 女人街 → 龍城冰室 → 波鞋街 → 花園街街市 → 旺角天橋 → 金魚街",
     items: [
       {
         time: "8:00",
@@ -37,7 +37,7 @@ const ITINERARY = [
       },
       {
         time: "15:30後",
-        act: "<span class='route-label'>總體路線</span>金華冰廳（下午茶）➔ 彌敦道 & 朗豪坊 ➔ 女人街 ➔ 龍城冰室（晚餐）➔ 波鞋街 ➔ 花園街街市 ➔ 旺角天橋 ➔ 金魚街",
+        act: "<span class='route-label'>總體路線</span>金華冰廳（下午茶）→ 彌敦道 & 朗豪坊 → 女人街 → 龍城冰室（晚餐）→ 波鞋街 → 花園街街市 → 旺角天橋 → 金魚街",
         places: [
           { name: "彌敦街", desc: "逛街拍照", url: "https://maps.app.goo.gl/oXMLDvb3TTEYq8bw6" },
           { name: "朗豪坊", desc: "逛街", url: "https://maps.app.goo.gl/UXAMt8hEFEqzsKAV6" },
@@ -66,8 +66,8 @@ const ITINERARY = [
     day: 2,
     date: "6/30（二）",
     status: "done",
-    title: "旺角 ⭢ 灣仔 ⭢ 堅尼地城 ⭢ 尖沙咀 ⭢ 旺角",
-    route: "甘牌燒鵝 ➔ 堅尼地城（籃球場 / 咖啡 / %Arabica / 海濱）➔ 尖沙咀（蛋塔 / 華嫂冰室 / 星光大道 / 天星小輪）➔ 太平山頂",
+    title: "旺角 → 灣仔 → 堅尼地城 → 尖沙咀 → 旺角",
+    route: "甘牌燒鵝 → 堅尼地城（籃球場 / 咖啡 / %Arabica / 海濱）→ 尖沙咀（蛋塔 / 華嫂冰室 / 星光大道 / 天星小輪）→ 太平山頂",
     items: [
       {
         time: "10:30",
@@ -81,7 +81,7 @@ const ITINERARY = [
       },
       {
         time: "13:00",
-        act: "<span class='route-label'>堅尼地城</span>籃球場 ➔ 咖啡館 ➔ 叮叮老香港辦館 ➔ %Arabica ➔ 海濱公園",
+        act: "<span class='route-label'>堅尼地城</span>籃球場 → 咖啡館 → 叮叮老香港辦館 → %Arabica → 海濱公園",
         places: [
           { name: "堅尼地城籃球場", desc: "拍照", url: "https://maps.app.goo.gl/C8nqCh4RsdAy2ybu8" },
           { name: "Winstons Coffee", desc: "拍照", url: "https://maps.app.goo.gl/AYHCsTEG4R5oVeTZA" },
@@ -93,7 +93,7 @@ const ITINERARY = [
       },
       {
         time: "15:00",
-        act: "<span class='route-label'>尖沙咀</span>Hashtag B ➔ 九龍公園 ➔ 華嫂冰室 ➔ 星光大道 ➔ 尖沙咀鐘樓 ➔ 天星小輪 ➔ 維多利亞港",
+        act: "<span class='route-label'>尖沙咀</span>Hashtag B → 九龍公園 → 華嫂冰室 → 星光大道 → 尖沙咀鐘樓 → 天星小輪 → 維多利亞港",
         places: [
           { name: "九龍公園", desc: "休息玩耍", url: "https://share.google/wVf7PRAx1WwY7ak87" },
           { name: "星光大道", desc: "逛逛", url: "https://share.google/2vmdIRzpCDkVzruQf" },
