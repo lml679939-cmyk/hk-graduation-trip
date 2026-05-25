@@ -5,6 +5,47 @@ const DAY_COLORS = {
   2: { color: "#16306e", label: "Day 2　灣仔・堅尼地城・尖沙咀" }
 };
 
+const EXCHANGE_COLOR = "#2e8b57";
+
+const EXCHANGE_PLACES = [
+  {
+    name: "重慶大廈找換店",
+    desc: "尖沙咀彌敦道36-44號・匯率最優・多家可比較",
+    lat: 22.2969, lng: 114.1716,
+    url: "https://www.google.com/maps/search/?api=1&query=Chungking+Mansions+Tsim+Sha+Tsui"
+  },
+  {
+    name: "旺角找換街（西洋菜南街）",
+    desc: "旺角行人專用區一帶・多家找換店集中",
+    lat: 22.3185, lng: 114.1693,
+    url: "https://www.google.com/maps/search/?api=1&query=Sai+Yeung+Choi+Street+South+Mong+Kok"
+  },
+  {
+    name: "旺角找換（彌敦道）",
+    desc: "彌敦道沿線・鄰近朗豪坊",
+    lat: 22.3163, lng: 114.1686,
+    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Nathan+Road+Mong+Kok"
+  },
+  {
+    name: "尖沙咀找換店（彌敦道）",
+    desc: "尖沙咀彌敦道中段・鄰近星光大道",
+    lat: 22.2997, lng: 114.1722,
+    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Nathan+Road+Tsim+Sha+Tsui"
+  },
+  {
+    name: "灣仔找換店（軒尼詩道）",
+    desc: "灣仔軒尼詩道沿線・多家集中",
+    lat: 22.2773, lng: 114.1738,
+    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Hennessy+Road+Wan+Chai"
+  },
+  {
+    name: "堅尼地城找換店",
+    desc: "西區・鄰近 Day 2 行程",
+    lat: 22.2832, lng: 114.1292,
+    url: "https://www.google.com/maps/search/?api=1&query=money+exchange+Kennedy+Town+Hong+Kong"
+  }
+];
+
 const HK_CENTER = [22.305, 114.158];
 
 function getMapPlaces() {
@@ -98,6 +139,42 @@ function buildPlaceLists(map, dayMarkers, tabBtns, allDays) {
   });
 }
 
+function buildExchangeList(map) {
+  const container = document.getElementById("placeLists");
+  if (!container) return;
+
+  const group = document.createElement("div");
+  group.id = "exchangeList";
+  group.className = "place-list-group";
+  group.style.cssText = "display:none; --day-color:" + EXCHANGE_COLOR;
+
+  const head = document.createElement("div");
+  head.className = "place-list-head";
+  head.innerHTML = `<span class="place-list-badge" style="background:${EXCHANGE_COLOR}">💱</span><span class="place-list-region">找換店推薦</span><small>點選跳至地圖</small>`;
+  group.appendChild(head);
+
+  EXCHANGE_PLACES.forEach((p, idx) => {
+    const item = document.createElement("div");
+    item.className = "place-list-item";
+    item.innerHTML = `
+      <span class="place-num" style="background:${EXCHANGE_COLOR}">${idx + 1}</span>
+      <div class="place-info">
+        <span class="place-name">${p.name}</span>
+        <span class="place-desc">${p.desc}</span>
+      </div>
+      <span class="place-go">→</span>
+    `;
+    item.addEventListener("click", () => {
+      const exchBtn = document.querySelector(".exchange-tab");
+      if (exchBtn && !exchBtn.classList.contains("active")) exchBtn.click();
+      map.flyTo([p.lat, p.lng], 17, { duration: 0.8 });
+    });
+    group.appendChild(item);
+  });
+
+  container.appendChild(group);
+}
+
 function initMap() {
   const map = L.map("map").setView(HK_CENTER, 13);
 
@@ -124,9 +201,36 @@ function initMap() {
     dayMarkers[p.day].push({ place: p, marker });
   });
 
+  // 換港幣圖層（預設隱藏）
+  const exchangeLayer = L.layerGroup();
+  EXCHANGE_PLACES.forEach(p => {
+    const marker = L.marker([p.lat, p.lng], { icon: makeIcon(EXCHANGE_COLOR) });
+    marker.bindPopup(popupHTML(p), { maxWidth: 240, className: "map-popup" });
+    exchangeLayer.addLayer(marker);
+  });
+
   const filtersEl = document.getElementById("mapFilters");
   const allDays = [...new Set(places.map(p => p.day))].sort();
   const tabBtns = {};
+
+  const setDayLayers = (dayKey) => {
+    map.removeLayer(exchangeLayer);
+    Object.keys(layerGroups).forEach(d => {
+      const show = dayKey === "all" || String(d) === String(dayKey);
+      show ? map.addLayer(layerGroups[d]) : map.removeLayer(layerGroups[d]);
+    });
+    const placeListsEl = document.getElementById("placeLists");
+    if (placeListsEl) {
+      if (dayKey === "all") {
+        placeListsEl.style.display = "none";
+      } else {
+        placeListsEl.style.display = "";
+        placeListsEl.querySelectorAll(".place-list-group[data-day]").forEach(g => {
+          g.style.display = g.dataset.day === String(dayKey) ? "" : "none";
+        });
+      }
+    }
+  };
 
   const makeTab = (label, dayKey, small) => {
     const btn = document.createElement("button");
@@ -135,21 +239,7 @@ function initMap() {
     btn.addEventListener("click", () => {
       document.querySelectorAll("#mapFilters .day-tab").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      Object.keys(layerGroups).forEach(d => {
-        const show = dayKey === "all" || String(d) === String(dayKey);
-        show ? map.addLayer(layerGroups[d]) : map.removeLayer(layerGroups[d]);
-      });
-      const placeListsEl = document.getElementById("placeLists");
-      if (placeListsEl) {
-        if (dayKey === "all") {
-          placeListsEl.style.display = "none";
-        } else {
-          placeListsEl.style.display = "";
-          placeListsEl.querySelectorAll(".place-list-group[data-day]").forEach(g => {
-            g.style.display = g.dataset.day === String(dayKey) ? "" : "none";
-          });
-        }
-      }
+      setDayLayers(dayKey);
     });
     tabBtns[dayKey] = btn;
     return btn;
@@ -161,6 +251,36 @@ function initMap() {
     filtersEl.appendChild(makeTab(`Day ${d}`, d, day?.date || ""));
   });
 
+  // 換港幣分頁
+  const exchangeBtn = document.createElement("button");
+  exchangeBtn.className = "day-tab exchange-tab";
+  exchangeBtn.innerHTML = `💱 換港幣`;
+  exchangeBtn.addEventListener("click", () => {
+    document.querySelectorAll("#mapFilters .day-tab").forEach(b => b.classList.remove("active"));
+    exchangeBtn.classList.add("active");
+    Object.keys(layerGroups).forEach(d => map.removeLayer(layerGroups[d]));
+    map.addLayer(exchangeLayer);
+    const placeListsEl = document.getElementById("placeLists");
+    if (placeListsEl) {
+      placeListsEl.style.display = "";
+      placeListsEl.querySelectorAll(".place-list-group[data-day]").forEach(g => {
+        g.style.display = "none";
+      });
+      const exchangeListEl = document.getElementById("exchangeList");
+      if (exchangeListEl) exchangeListEl.style.display = "";
+    }
+    map.flyTo([22.301, 114.162], 13, { duration: 0.6 });
+  });
+  filtersEl.appendChild(exchangeBtn);
+
+  // 切換其他分頁時隱藏換港幣清單
+  document.querySelectorAll("#mapFilters .day-tab:not(.exchange-tab)").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const exchangeListEl = document.getElementById("exchangeList");
+      if (exchangeListEl) exchangeListEl.style.display = "none";
+    });
+  });
+
   const legendEl = document.getElementById("mapLegend");
   allDays.forEach(d => {
     const info = DAY_COLORS[d];
@@ -169,9 +289,15 @@ function initMap() {
     span.innerHTML = `<i style="background:${info.color}"></i>${info.label}`;
     legendEl.appendChild(span);
   });
+  const exchSpan = document.createElement("span");
+  exchSpan.innerHTML = `<i style="background:${EXCHANGE_COLOR}"></i>找換店`;
+  legendEl.appendChild(exchSpan);
 
   buildPlaceLists(map, dayMarkers, tabBtns, allDays);
   document.getElementById("placeLists").style.display = "none";
+
+  // 換港幣清單
+  buildExchangeList(map);
 }
 
 document.addEventListener("DOMContentLoaded", initMap);
