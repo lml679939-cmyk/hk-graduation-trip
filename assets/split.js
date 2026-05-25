@@ -92,14 +92,16 @@ function initRateBar() {
 /* ── 新增費用表單 ── */
 
 function initForm() {
-  const paidByEl = document.getElementById('fPaidBy');
-  MEMBERS.forEach(m => {
-    const o = document.createElement('option');
-    o.value = o.textContent = m;
-    paidByEl.appendChild(o);
-  });
-
   document.getElementById('fDate').value = '2026-06-29';
+
+  const payerEl = document.getElementById('payerChecks');
+  MEMBERS.forEach(m => {
+    const lbl = document.createElement('label');
+    lbl.className = 'split-check-lbl';
+    lbl.innerHTML = `<input type="checkbox" name="payer" value="${m}"><span>${m}</span>`;
+    payerEl.appendChild(lbl);
+  });
+  payerEl.addEventListener('change', updatePreview);
 
   const checksEl = document.getElementById('memberChecks');
   MEMBERS.forEach(m => {
@@ -120,14 +122,49 @@ function initForm() {
 
   document.getElementById('fAmount').addEventListener('input', updatePreview);
   document.getElementById('fCurrency').addEventListener('change', updatePreview);
-  document.getElementById('fPaidBy').addEventListener('change', updatePreview);
   checksEl.addEventListener('change', updatePreview);
 
+  document.getElementById('fReceipt').addEventListener('change', handleReceiptChange);
   document.getElementById('btnSubmit').addEventListener('click', submitExpense);
 }
 
 function getChecked() {
   return [...document.querySelectorAll('#memberChecks input:checked')].map(c => c.value);
+}
+
+function getPaidBy() {
+  return [...document.querySelectorAll('#payerChecks input:checked')].map(c => c.value);
+}
+
+let currentReceiptData = '';
+
+async function handleReceiptChange(e) {
+  const file = e.target.files[0];
+  if (!file) { currentReceiptData = ''; document.getElementById('receiptPreview').style.display = 'none'; return; }
+  currentReceiptData = await compressImage(file);
+  const prev = document.getElementById('receiptPreview');
+  prev.src = currentReceiptData;
+  prev.style.display = '';
+}
+
+function compressImage(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = evt => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX = 150;
+        const ratio = Math.min(MAX / img.width, MAX / img.height, 1);
+        const canvas = document.createElement('canvas');
+        canvas.width  = Math.round(img.width  * ratio);
+        canvas.height = Math.round(img.height * ratio);
+        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', 0.5));
+      };
+      img.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
 function updatePreview() {
@@ -146,13 +183,14 @@ async function submitExpense() {
   const rawAmount    = parseFloat(document.getElementById('fAmount').value);
   const currency     = document.getElementById('fCurrency').value;
   const amount       = currency === 'TWD' ? rawAmount / rate : rawAmount;
-  const paidBy       = document.getElementById('fPaidBy').value;
+  const paidBy       = getPaidBy();
   const date         = document.getElementById('fDate').value;
   const participants = getChecked();
 
-  if (!desc)               { alert('請填寫費用說明'); return; }
-  if (!amount || amount <= 0) { alert('請填寫正確金額'); return; }
-  if (!participants.length)   { alert('請至少選一位分攤成員'); return; }
+  if (!desc)                      { alert('請填寫費用說明'); return; }
+  if (!rawAmount || rawAmount <= 0) { alert('請填寫正確金額'); return; }
+  if (!paidBy.length)             { alert('請至少選一位付款人'); return; }
+  if (!participants.length)       { alert('請至少選一位分攤成員'); return; }
 
   const btn = document.getElementById('btnSubmit');
   btn.disabled = true;
@@ -164,12 +202,17 @@ async function submitExpense() {
       desc, amount, paidBy, date, participants,
       submittedBy:      currentUser.name,
       submittedByEmail: currentUser.email,
-      timestamp:        Date.now()
+      timestamp:        Date.now(),
+      receiptData:      currentReceiptData
     };
     await apiGet({ action: 'add', d: JSON.stringify(expense) });
 
     document.getElementById('fDesc').value   = '';
     document.getElementById('fAmount').value = '';
+    document.getElementById('fReceipt').value = '';
+    document.getElementById('receiptPreview').style.display = 'none';
+    currentReceiptData = '';
+    document.querySelectorAll('#payerChecks input').forEach(c => c.checked = false);
     document.querySelectorAll('#memberChecks input').forEach(c => c.checked = true);
     document.getElementById('fPreview').innerHTML = '';
     await loadExpenses();
@@ -248,6 +291,7 @@ function renderExpenses() {
 
 function expenseRowHTML(e) {
   const per    = e.amount / e.participants.length;
+  const payers = Array.isArray(e.paidBy) ? e.paidBy : [e.paidBy];
   const canDel = e.submittedByEmail === currentUser.email;
   return `
     <div class="split-expense-row">
@@ -256,11 +300,12 @@ function expenseRowHTML(e) {
         <span class="split-exp-amt">HKD ${Number(e.amount).toFixed(1)}</span>
       </div>
       <div class="split-exp-meta">
-        <b>${e.paidBy}</b> 付款 · ${e.participants.length} 人均分
+        <b>${payers.join('、')}</b> 付款 · ${e.participants.length} 人均分
         （每人 HKD ${per.toFixed(1)} ≈ TWD ${Math.round(per * rate)}）
         · 記帳：${e.submittedBy}
         ${canDel ? `<button class="split-del-btn" data-id="${e.id}">刪除</button>` : ''}
       </div>
+      ${e.receiptData ? `<img class="split-receipt-thumb" src="${e.receiptData}" alt="收據" title="點擊放大" onclick="window.open(this.src)">` : ''}
     </div>`;
 }
 
@@ -294,8 +339,10 @@ function calcSettlement() {
   MEMBERS.forEach(m => { bal[m] = 0; });
 
   expenses.forEach(({ amount, paidBy, participants }) => {
+    const payers = Array.isArray(paidBy) ? paidBy : [paidBy];
+    const payerShare = amount / payers.length;
+    payers.forEach(p => { bal[p] = (bal[p] || 0) + payerShare; });
     const share = amount / participants.length;
-    bal[paidBy] = (bal[paidBy] || 0) + amount;
     participants.forEach(p => { bal[p] = (bal[p] || 0) - share; });
   });
 

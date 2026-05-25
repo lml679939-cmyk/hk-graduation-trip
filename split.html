@@ -85,13 +85,13 @@
               </div>
             </div>
             <div class="split-field">
-              <label>由誰付款</label>
-              <select id="fPaidBy"></select>
-            </div>
-            <div class="split-field">
               <label>日期</label>
               <input id="fDate" type="date">
             </div>
+          </div>
+          <div class="split-field">
+            <label>由誰付款（可複選）</label>
+            <div class="split-checks" id="payerChecks"></div>
           </div>
           <div class="split-field">
             <label>分攤成員（預設全選）</label>
@@ -99,6 +99,13 @@
             <div class="split-check-actions">
               <button class="filter-btn" id="btnSelectAll">全選</button>
               <button class="filter-btn" id="btnClearAll">清除</button>
+            </div>
+          </div>
+          <div class="split-field">
+            <label>上傳收據 <span class="split-label-hint">（選用・圖片壓縮後同步給所有成員）</span></label>
+            <div class="split-receipt-wrap">
+              <input type="file" id="fReceipt" accept="image/*">
+              <img id="receiptPreview" class="split-receipt-preview" style="display:none" alt="">
             </div>
           </div>
           <div id="fPreview" class="split-preview"></div>

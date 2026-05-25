@@ -57,8 +57,8 @@ function getSheet() {
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
     sheet.appendRow(['ID', '時間戳記', '日期', '費用說明', '金額(HKD)',
-                     '付款人', '分攤成員(JSON)', '記帳人', '記帳人Email']);
-    sheet.getRange(1, 1, 1, 9).setFontWeight('bold');
+                     '付款人(JSON)', '分攤成員(JSON)', '記帳人', '記帳人Email', '收據圖片']);
+    sheet.getRange(1, 1, 1, 10).setFontWeight('bold');
     sheet.setFrozenRows(1);
   }
   return sheet;
@@ -104,17 +104,25 @@ function listExpenses() {
   const rows = getSheet().getDataRange().getValues().slice(1); // 跳過標題行
   const expenses = rows
     .filter(r => r[0]) // 過濾空行
-    .map(r => ({
-      id:               String(r[0]),
-      timestamp:        r[1] ? new Date(r[1]).getTime() : 0,
-      date:             r[2],
-      desc:             r[3],
-      amount:           parseFloat(r[4]) || 0,
-      paidBy:           r[5],
-      participants:     JSON.parse(r[6] || '[]'),
-      submittedBy:      r[7],
-      submittedByEmail: r[8]
-    }));
+    .map(r => {
+      let paidBy;
+      try {
+        const parsed = JSON.parse(r[5]);
+        paidBy = Array.isArray(parsed) ? parsed : [String(r[5])];
+      } catch { paidBy = [String(r[5])]; }
+      return {
+        id:               String(r[0]),
+        timestamp:        r[1] ? new Date(r[1]).getTime() : 0,
+        date:             r[2],
+        desc:             r[3],
+        amount:           parseFloat(r[4]) || 0,
+        paidBy,
+        participants:     JSON.parse(r[6] || '[]'),
+        submittedBy:      r[7],
+        submittedByEmail: r[8],
+        receiptData:      r[9] || ''
+      };
+    });
   return json({ ok: true, expenses });
 }
 
@@ -124,16 +132,18 @@ function addExpense(exp) {
   if (!exp.id || !exp.desc || !exp.amount || !exp.paidBy) {
     return json({ ok: false, error: '資料不完整' });
   }
+  const paidByArr = Array.isArray(exp.paidBy) ? exp.paidBy : [exp.paidBy];
   getSheet().appendRow([
     exp.id,
     new Date(),
     exp.date             || '',
     exp.desc,
     exp.amount,
-    exp.paidBy,
+    JSON.stringify(paidByArr),
     JSON.stringify(exp.participants || []),
     exp.submittedBy      || '',
-    exp.submittedByEmail || ''
+    exp.submittedByEmail || '',
+    exp.receiptData      || ''
   ]);
   return json({ ok: true });
 }

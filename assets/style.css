@@ -647,6 +647,10 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
 .split-amount-wrap { display: flex; gap: 0; }
 .split-amount-wrap input { flex: 1; border-right: none; }
 .split-amount-wrap select { width: 72px; border-left: 2px solid var(--navy); flex-shrink: 0; }
+.split-label-hint { font-weight: 400; font-size: 12px; opacity: 0.6; }
+.split-receipt-wrap { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.split-receipt-preview { height: 60px; width: auto; max-width: 120px; object-fit: cover; border: 2px solid var(--navy); border-radius: 4px; }
+.split-receipt-thumb { height: 36px; width: auto; max-width: 80px; object-fit: cover; border: 1px solid var(--navy); border-radius: 3px; cursor: pointer; display: block; margin-top: 4px; }
 
 .split-checks {
   display: flex;
