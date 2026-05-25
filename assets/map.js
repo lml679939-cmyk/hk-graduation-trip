@@ -66,6 +66,7 @@ function buildPlaceLists(map, dayMarkers, tabBtns, allDays) {
 
     const group = document.createElement("div");
     group.className = "place-list-group";
+    group.dataset.day = String(d);
     group.style.setProperty("--day-color", info?.color || "#888");
 
     const head = document.createElement("div");
@@ -138,6 +139,17 @@ function initMap() {
         const show = dayKey === "all" || String(d) === String(dayKey);
         show ? map.addLayer(layerGroups[d]) : map.removeLayer(layerGroups[d]);
       });
+      const placeListsEl = document.getElementById("placeLists");
+      if (placeListsEl) {
+        if (dayKey === "all") {
+          placeListsEl.style.display = "none";
+        } else {
+          placeListsEl.style.display = "";
+          placeListsEl.querySelectorAll(".place-list-group[data-day]").forEach(g => {
+            g.style.display = g.dataset.day === String(dayKey) ? "" : "none";
+          });
+        }
+      }
     });
     tabBtns[dayKey] = btn;
     return btn;
@@ -159,6 +171,7 @@ function initMap() {
   });
 
   buildPlaceLists(map, dayMarkers, tabBtns, allDays);
+  document.getElementById("placeLists").style.display = "none";
 }
 
 document.addEventListener("DOMContentLoaded", initMap);

@@ -794,7 +794,7 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
 
 /* ===== 景點地圖 ===== */
 #map {
-  height: clamp(420px, 62vh, 620px);
+  height: clamp(300px, 42vh, 440px);
   border: 3px solid var(--navy);
   box-shadow: var(--shadow);
   margin-bottom: 14px;
