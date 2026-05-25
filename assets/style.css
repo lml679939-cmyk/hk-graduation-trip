@@ -675,6 +675,8 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
 .split-check-lbl:has(input:checked) { background: var(--cream-2); }
 .split-check-lbl input { accent-color: var(--navy); }
 .split-check-actions { display: flex; gap: 8px; margin-top: 10px; }
+.split-check-lbl input[type="checkbox"] { outline: none; }
+.split-form > .split-field + .split-field { margin-top: 16px; }
 
 .split-preview {
   margin: 14px 0 0;

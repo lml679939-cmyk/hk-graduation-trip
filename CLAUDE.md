@@ -24,13 +24,16 @@
 /
 ├── index.html          行程表頁（Day 1–4，Day 3/4 目前顯示「規劃中」）
 ├── food.html           餐食資訊頁（餐廳卡片 + 13 人飲食禁忌表）
-├── map.html            景點地圖頁（Leaflet.js + OpenStreetMap）
+├── map.html            景點地圖頁（Leaflet.js + OpenStreetMap + 景點清單）
+├── split.html          旅費分帳頁（Google 登入 + Google Sheets 同步）
+├── apps-script.js      Google Apps Script 後端原始碼備份（已部署，勿直接執行）
 ├── CLAUDE.md           本文件（交接 / AI agent 說明）
 ├── assets/
 │   ├── style.css       全域樣式（港式復古海報風設計系統）
 │   ├── data.js         行程資料（ITINERARY）+ 餐廳資料（RESTAURANTS）+ 飲食調查（SURVEY）
 │   ├── app.js          行程頁 & 餐食頁的 DOM 渲染邏輯
-│   ├── map.js          景點地圖渲染邏輯（Leaflet 初始化、標記、篩選 tab）
+│   ├── map.js          景點地圖渲染邏輯（Leaflet 初始化、標記、篩選 tab、景點清單）
+│   ├── split.js        旅費分帳邏輯（表單、Google API、最少轉帳結算）
 │   └── player.js       浮動音樂播放器（港樂點唱機）
 ├── .claude/
 │   └── launch.json     preview server 設定（port 5500）
@@ -160,8 +163,10 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 | Day tab 切換 | 點標籤切換天數；Day 3/4 按鈕灰階 disabled |
 | 景點地圖連結（膠囊） | 行程頁膠囊樣式，點擊開 Google Maps |
 | 景點地圖頁 | `map.html`：Leaflet.js + OpenStreetMap，Day 1 紅標、Day 2 深藍標，Day tab 篩選，點標記顯示 popup |
+| 景點行程清單 | 地圖下方按天顯示景點清單，點擊跳至地圖對應位置並開啟 popup；切換 Day tab 才顯示，「全部」時隱藏 |
 | Day 1、Day 2 GPS 座標 | 共 17 個景點已填入 `lat`/`lng`（在 data.js 的 places 陣列） |
 | 餐食分頁 | 15 間餐廳卡片，含所有欄位資訊 |
+| 餐廳訂位連結 | 金華冰廳（AutoReserve）、蓮香樓（inline.app）已加入線上訂位連結 |
 | 容納人數篩選 | 按 ⭕/❌ 篩選適合 13 人的餐廳 |
 | 飲食禁忌速查表 | 12 人的吃辣 + 禁忌食材 |
 | 浮動音樂播放器 | 12 首港樂（Beyond / 李克勤 / 陳奕迅 / 張學友 / 譚詠麟）|
@@ -169,6 +174,11 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 | 隨機播放 | Fisher–Yates 洗牌，記憶隨機佇列可回上一首 |
 | 自動接播 | YouTube `postMessage`（`onStateChange: 0`）偵測影片結束自動播下一首 |
 | 響應式設計 | 手機友善（560px 斷點），標題最小 44px 確保白紅重疊效果 |
+| **旅費分帳頁** | `split.html`：Google Sign-In 登入，費用記錄即時同步 Google Sheets |
+| 新增費用 | 費用說明、金額（HKD/TWD 幣別切換自動換算）、複選付款人、分攤成員、日期、上傳收據圖片 |
+| 費用明細 | 按日期分組顯示，含收據縮圖（點擊放大），記帳人本人可刪除 |
+| 自動結算 | 最少轉帳筆數貪婪演算法，顯示 HKD + TWD 換算金額 |
+| 匯率 | 固定 1 HKD = 4.2 TWD，無法手動更改（需改 `DEFAULT_RATE`） |
 
 ### 🔲 尚未完成 / 規劃中
 
@@ -176,7 +186,8 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 |---|---|---|
 | Day 3 行程 | ⭐⭐⭐ | 用戶說之後會補；格式見上方；記得同步補 GPS 座標 + map.js DAY_COLORS |
 | Day 4 行程 | ⭐⭐⭐ | 同上 |
-| 經費試算 | ⭐⭐ | 已規劃：新頁面，匯率換算 + 人均費用，資料待用戶提供 |
+| 分帳 ALLOWED_EMAILS | ⭐⭐ | 目前 split.js 只有用戶 lml679939@gmail.com；收到 13 人 Gmail 後填入 ALLOWED_EMAILS（前端 split.js + 後端 Apps Script 各一份），填完需重新部署 Apps Script |
+| 第 13 位成員 | ⭐⭐ | MEMBERS 陣列目前只有 12 人，待確認第 13 位姓名後補入 `assets/split.js` |
 | 餐廳卡片照片 | ⭐ | 待用戶提供照片 |
 
 ---
@@ -210,6 +221,62 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 | 2 | 星光大道 | 22.2892 | 114.1715 |
 | 2 | 尖沙咀鐘樓 | 22.2939 | 114.1710 |
 | 2 | 天星碼頭 | 22.2940 | 114.1686 |
+
+---
+
+## 旅費分帳（split.html）技術說明
+
+### 架構
+
+純靜態前端 + Google Apps Script Web App（GET-only API）+ Google Sheets 儲存
+
+- **登入**：Google Identity Services（GIS）declarative sign-in，JWT 由前端 base64url 解碼，不做 signature 驗證（私人小圈子可接受）
+- **API 模式**：所有請求用 GET，繞過 Apps Script POST redirect 的 CORS 問題
+- **Session 保存**：`localStorage('split_user')` 存使用者資料，重新整理不需再登入
+
+### 關鍵設定（assets/split.js）
+
+```js
+const SPLIT_CONFIG = {
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx5NP0dO-Dp4JBXaPPBhmSjRuf9cCYKc-vZbGmMqtcOIkI2EhYI0mjoE8ojaysaIwph-w/exec',
+  ALLOWED_EMAILS: ['lml679939@gmail.com'],  // ← 收到 13 人 Gmail 後全部填入
+  DEFAULT_RATE: 4.2                          // ← 修改匯率在此
+};
+const MEMBERS = [
+  "鍾宜珊", "陳禹璇", "吳孟剛", "林苡婕", "葉祐誠", "陳思妤",
+  "陳柏村", "張舜堯", "徐睿君", "何姸穎", "劉映彤", "張旭廷"
+  // ⚠️ 目前 12 人，第 13 位待確認後補入
+];
+```
+
+### Google OAuth Client ID
+
+`split.html` 的 `data-client_id`：
+```
+709660545333-uq8pvh6ovut69lf35j4jmgo4p4fepb58.apps.googleusercontent.com
+```
+已授權的 JavaScript 來源：`https://lml679939-cmyk.github.io`、`http://localhost:5500`
+
+### Google Sheets 欄位結構（分帳記錄 工作表）
+
+| 欄 | 內容 |
+|---|---|
+| A | ID（隨機字串） |
+| B | 時間戳記 |
+| C | 日期（YYYY-MM-DD） |
+| D | 費用說明 |
+| E | 金額（HKD，永遠存港幣） |
+| F | 付款人（JSON array，如 `["葉祐誠","鍾宜珊"]`） |
+| G | 分攤成員（JSON array） |
+| H | 記帳人姓名 |
+| I | 記帳人 Email |
+| J | 收據圖片（base64 JPEG，最大 150px，可空白） |
+
+Spreadsheet ID：`1zBVlMaw7WymQmyQx8GW2dsYZl4ds4sjfSaaTtZJ-X1Q`
+
+### 更新 Apps Script 後需重新部署
+
+修改 `apps-script.js` → 到 Google Apps Script 編輯器全選貼上（保留 SPREADSHEET_ID）→「部署」→「管理部署作業」→ 鉛筆 → 版本選「新版本」→「部署」。URL 不變，不需更新前端。
 
 ---
 
@@ -276,3 +343,6 @@ git push
 - YouTube 嵌入自動播放（`autoplay=1`）需要使用者點擊觸發，瀏覽器才允許有聲音播放，這是瀏覽器安全政策，非 bug。
 - `香港去哪裡.md` 的圖片（image1–image6）為 Google Docs 嵌入，匯出後失效，目前網頁不顯示；若有需要可請用戶另外提供圖片。
 - 地圖頁（map.html）需要網路連線載入 OpenStreetMap tiles 和 Leaflet CDN；離線環境無法使用。
+- 分帳頁的 Google Sign-In 需等 OAuth credential 傳播（Google 警告最長數小時），`invalid_client` 錯誤等待即可。
+- 分帳頁收據圖片壓縮至最大 150px JPEG，base64 約 3–7KB，透過 GET URL 傳送；超大圖片若 API 回傳錯誤請改用較小的照片。
+- `apps-script.js` 是本機備份，實際執行的是已部署的 Apps Script；兩者若有差異，以 Google Apps Script 編輯器內的版本為準。
