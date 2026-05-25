@@ -101,6 +101,15 @@ function doGet(e) {
       return deleteExpense(id, email);
     }
 
+    if (action === 'update') {
+      const expense = JSON.parse(decodeURIComponent(e.parameter.d || '{}'));
+      const email   = e.parameter.email || '';
+      if (!isAllowed(email)) {
+        return json({ ok: false, error: '帳號不在允許名單' });
+      }
+      return updateExpense(expense, email);
+    }
+
     return json({ ok: false, error: '未知的 action' });
 
   } catch (err) {
@@ -169,6 +178,29 @@ function deleteExpense(id, email) {
         return json({ ok: false, error: '只有記帳人本人可以刪除' });
       }
       sheet.deleteRow(i + 1);
+      return json({ ok: true });
+    }
+  }
+  return json({ ok: false, error: '找不到此筆記錄' });
+}
+
+// ── 編輯費用（僅記帳人本人可編輯） ───────────────────────────
+
+function updateExpense(exp, email) {
+  const sheet = getSheet();
+  const rows  = sheet.getDataRange().getValues();
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][0]) === String(exp.id)) {
+      if (ALLOWED_EMAILS.length > 0 && rows[i][8] !== email) {
+        return json({ ok: false, error: '只有記帳人本人可以編輯' });
+      }
+      const paidByArr = Array.isArray(exp.paidBy) ? exp.paidBy : [exp.paidBy];
+      sheet.getRange(i + 1, 3).setValue(exp.date        || '');
+      sheet.getRange(i + 1, 4).setValue(exp.desc);
+      sheet.getRange(i + 1, 5).setValue(exp.amount);
+      sheet.getRange(i + 1, 6).setValue(JSON.stringify(paidByArr));
+      sheet.getRange(i + 1, 7).setValue(JSON.stringify(exp.participants || []));
+      sheet.getRange(i + 1, 10).setValue(exp.receiptData || '');
       return json({ ok: true });
     }
   }

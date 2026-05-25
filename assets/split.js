@@ -77,6 +77,7 @@ function showApp() {
   renderUserBar();
   initRateBar();
   initForm();
+  initEditModal();
   loadExpenses();
 }
 
@@ -288,6 +289,10 @@ function renderExpenses() {
        總計 <b>HKD ${totalHKD.toFixed(1)}</b>（約 TWD ${Math.round(totalHKD * rate)}）
      </div>`;
 
+  el.querySelectorAll('.split-edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => openEditModal(btn.dataset.id));
+  });
+
   el.querySelectorAll('.split-del-btn').forEach(btn => {
     btn.addEventListener('click', async () => {
       if (!confirm('確定刪除此費用？')) return;
@@ -306,7 +311,7 @@ function renderExpenses() {
 function expenseRowHTML(e) {
   const per    = e.amount / e.participants.length;
   const payers = Array.isArray(e.paidBy) ? e.paidBy : [e.paidBy];
-  const canDel = e.submittedByEmail === currentUser.email;
+  const isMine = e.submittedByEmail === currentUser.email;
   return `
     <div class="split-expense-row">
       <div class="split-exp-top">
@@ -317,7 +322,8 @@ function expenseRowHTML(e) {
         <b>${payers.join('、')}</b> 付款 · ${e.participants.length} 人均分
         （每人 HKD ${per.toFixed(1)} ≈ TWD ${Math.round(per * rate)}）
         · 記帳：${e.submittedBy}
-        ${canDel ? `<button class="split-del-btn" data-id="${e.id}">刪除</button>` : ''}
+        ${isMine ? `<button class="split-edit-btn" data-id="${e.id}">編輯</button>` : ''}
+        ${isMine ? `<button class="split-del-btn" data-id="${e.id}">刪除</button>` : ''}
       </div>
       ${e.receiptData ? `<img class="split-receipt-thumb" src="${e.receiptData}" alt="收據" title="點擊放大" onclick="window.open(this.src)">` : ''}
     </div>`;
@@ -376,6 +382,124 @@ function calcSettlement() {
     if (Math.abs(c.v) < 0.005) cred.shift();
   }
   return txns;
+}
+
+/* ── 編輯費用 Modal ── */
+
+let editingExpenseId = null;
+let editReceiptData  = null;
+
+function initEditModal() {
+  const payerEl = document.getElementById('ePayerChecks');
+  MEMBERS.forEach(m => {
+    const lbl = document.createElement('label');
+    lbl.className = 'split-check-lbl';
+    lbl.innerHTML = `<input type="checkbox" name="epayer" value="${m}"><span>${m}</span>`;
+    payerEl.appendChild(lbl);
+  });
+
+  const memberEl = document.getElementById('eMemberChecks');
+  MEMBERS.forEach(m => {
+    const lbl = document.createElement('label');
+    lbl.className = 'split-check-lbl';
+    lbl.innerHTML = `<input type="checkbox" name="emember" value="${m}"><span>${m}</span>`;
+    memberEl.appendChild(lbl);
+  });
+
+  document.getElementById('eBtnSelectAll').addEventListener('click', () =>
+    memberEl.querySelectorAll('input').forEach(c => c.checked = true));
+  document.getElementById('eBtnClearAll').addEventListener('click', () =>
+    memberEl.querySelectorAll('input').forEach(c => c.checked = false));
+
+  document.getElementById('eFReceipt').addEventListener('change', async e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    editReceiptData = await compressImage(file);
+    const prev = document.getElementById('eReceiptPreview');
+    prev.src = editReceiptData;
+    prev.style.display = '';
+  });
+
+  document.getElementById('btnSaveEdit').addEventListener('click', saveEdit);
+  document.getElementById('btnCancelEdit').addEventListener('click', closeEditModal);
+  document.getElementById('editModal').addEventListener('click', e => {
+    if (e.target.id === 'editModal') closeEditModal();
+  });
+}
+
+function openEditModal(id) {
+  const exp = expenses.find(e => e.id === id);
+  if (!exp) return;
+  editingExpenseId = id;
+  editReceiptData  = exp.receiptData || null;
+
+  document.getElementById('eFDesc').value     = exp.desc;
+  document.getElementById('eFAmount').value   = Number(exp.amount).toFixed(1);
+  document.getElementById('eFCurrency').value = 'HKD';
+  document.getElementById('eFDate').value     = exp.date;
+  document.getElementById('eFReceipt').value  = '';
+
+  const payers = Array.isArray(exp.paidBy) ? exp.paidBy : [exp.paidBy];
+  document.querySelectorAll('#ePayerChecks input').forEach(c => {
+    c.checked = payers.includes(c.value);
+  });
+  document.querySelectorAll('#eMemberChecks input').forEach(c => {
+    c.checked = exp.participants.includes(c.value);
+  });
+
+  const prev = document.getElementById('eReceiptPreview');
+  if (editReceiptData) { prev.src = editReceiptData; prev.style.display = ''; }
+  else                 { prev.style.display = 'none'; }
+
+  document.getElementById('editModal').style.display = '';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').style.display = 'none';
+  document.body.style.overflow = '';
+  editingExpenseId = null;
+  editReceiptData  = null;
+}
+
+async function saveEdit() {
+  if (!editingExpenseId) return;
+  const desc      = document.getElementById('eFDesc').value.trim();
+  const rawAmount = parseFloat(document.getElementById('eFAmount').value);
+  const currency  = document.getElementById('eFCurrency').value;
+  const amount    = currency === 'TWD' ? rawAmount / rate : rawAmount;
+  const date      = document.getElementById('eFDate').value;
+  const paidBy       = [...document.querySelectorAll('#ePayerChecks input:checked')].map(c => c.value);
+  const participants = [...document.querySelectorAll('#eMemberChecks input:checked')].map(c => c.value);
+
+  if (!desc)                        { alert('請填寫費用說明'); return; }
+  if (!rawAmount || rawAmount <= 0) { alert('請填寫正確金額'); return; }
+  if (!paidBy.length)               { alert('請至少選一位付款人'); return; }
+  if (!participants.length)         { alert('請至少選一位分攤成員'); return; }
+
+  const btn = document.getElementById('btnSaveEdit');
+  btn.disabled = true;
+  btn.textContent = '儲存中⋯';
+
+  try {
+    const orig    = expenses.find(e => e.id === editingExpenseId);
+    const updated = {
+      id: editingExpenseId,
+      desc, amount, paidBy, date, participants,
+      submittedBy:      orig.submittedBy,
+      submittedByEmail: orig.submittedByEmail,
+      timestamp:        orig.timestamp,
+      receiptData:      editReceiptData || ''
+    };
+    await apiGet({ action: 'update', d: JSON.stringify(updated), email: currentUser.email });
+    closeEditModal();
+    await loadExpenses();
+  } catch (e) {
+    alert('儲存失敗：' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '儲存變更';
+  }
 }
 
 /* ── 初始化 ── */

@@ -129,6 +129,58 @@
     </div>
   </main>
 
+  <!-- ── 編輯費用 Modal ── -->
+  <div id="editModal" class="split-modal-overlay" style="display:none">
+    <div class="split-modal">
+      <h2 class="section-title" style="margin-top:0;margin-bottom:18px">編輯費用</h2>
+      <div class="split-form">
+        <div class="split-form-row">
+          <div class="split-field">
+            <label>費用說明</label>
+            <input id="eFDesc" type="text" placeholder="例：午餐・甘牌燒鵝">
+          </div>
+          <div class="split-field">
+            <label>金額</label>
+            <div class="split-amount-wrap">
+              <input id="eFAmount" type="number" placeholder="0" min="0" step="0.1">
+              <select id="eFCurrency">
+                <option value="HKD">HKD</option>
+                <option value="TWD">TWD</option>
+              </select>
+            </div>
+          </div>
+          <div class="split-field">
+            <label>日期</label>
+            <input id="eFDate" type="date">
+          </div>
+        </div>
+        <div class="split-field">
+          <label>由誰付款（可複選）</label>
+          <div class="split-checks" id="ePayerChecks"></div>
+        </div>
+        <div class="split-field">
+          <label>分攤成員</label>
+          <div class="split-checks" id="eMemberChecks"></div>
+          <div class="split-check-actions">
+            <button class="filter-btn" id="eBtnSelectAll">全選</button>
+            <button class="filter-btn" id="eBtnClearAll">清除</button>
+          </div>
+        </div>
+        <div class="split-field">
+          <label>收據 <span class="split-label-hint">（選用・不更換則保留原圖）</span></label>
+          <div class="split-receipt-wrap">
+            <input type="file" id="eFReceipt" accept="image/*">
+            <img id="eReceiptPreview" class="split-receipt-preview" style="display:none" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="split-modal-actions">
+        <button class="split-submit-btn" id="btnSaveEdit" style="margin-top:0">儲存變更</button>
+        <button class="filter-btn split-modal-cancel" id="btnCancelEdit">取消</button>
+      </div>
+    </div>
+  </div>
+
   <div class="stripe-bar"></div>
   <footer class="site-footer">
     <span class="hk">HEY HONG KONG</span> ｜ 香港畢業旅行 · 一起把回憶塞滿四天三夜 🇭🇰

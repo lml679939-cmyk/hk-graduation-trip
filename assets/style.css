@@ -747,6 +747,19 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
 .split-exp-desc { font-weight: 700; font-size: 15px; color: var(--navy); }
 .split-exp-amt  { font-weight: 900; font-size: 15px; color: var(--red); white-space: nowrap; }
 .split-exp-meta { font-size: 12.5px; color: #666; }
+.split-edit-btn {
+  margin-left: 10px;
+  background: none;
+  border: 1.5px solid var(--navy-2);
+  color: var(--navy-2);
+  border-radius: 4px;
+  padding: 1px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.split-edit-btn:hover { background: var(--navy-2); color: #fff; }
+
 .split-del-btn {
   margin-left: 10px;
   background: none;
@@ -794,11 +807,46 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
 }
 .split-empty { color: #999; font-size: 14px; padding: 16px 0; }
 
+.split-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 48, 110, 0.55);
+  z-index: 900;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px 40px;
+  overflow-y: auto;
+}
+.split-modal {
+  background: var(--cream);
+  border: 3px solid var(--navy);
+  border-radius: 4px;
+  padding: 28px 28px 24px;
+  width: 100%;
+  max-width: 640px;
+  position: relative;
+}
+.split-modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  align-items: center;
+}
+.split-modal-cancel {
+  font-size: 14px;
+  padding: 10px 22px;
+}
+
 @media (max-width: 560px) {
   .split-login-box { margin: 24px auto; padding: 24px 16px; }
   .split-form-row  { grid-template-columns: 1fr; }
   .split-settle-row { flex-direction: column; align-items: flex-start; }
   .settle-amt { margin-left: 0; }
+  .split-modal { padding: 20px 16px 18px; }
+  .split-modal-actions { flex-direction: column; }
+  .split-modal-actions .split-submit-btn,
+  .split-modal-actions .split-modal-cancel { width: 100%; text-align: center; }
 }
 
 /* ===== Footer ===== */
