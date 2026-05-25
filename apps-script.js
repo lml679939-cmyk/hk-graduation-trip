@@ -37,9 +37,19 @@
 const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID'; // ← 填入 Google Sheets ID
 const SHEET_NAME     = '分帳記錄';
 const ALLOWED_EMAILS = [
-  // 填入 13 位成員的 Gmail（留空 = 不限制，任何人都可操作）
-  // 'member01@gmail.com',
-  // 'member02@gmail.com',
+  'lml679939@gmail.com',       // 葉祐誠
+  'joey930531@gmail.com',      // 吳孟剛
+  'yenyingho0203@gmail.com',   // 何姸穎
+  'amooli99054@gmail.com',     // 徐睿君
+  '040116panda@gmail.com',     // 鍾宜珊
+  'yuxuann.0218@gmail.com',    // 陳禹璇
+  'ken0965453937@gmail.com',   // 張旭廷
+  'a0981024358@gmail.com',     // 劉映彤
+  'chenpotsunnnn@gmail.com',   // 陳柏村
+  'csy.shunyiutw@gmail.com',   // 張舜堯
+  // 林苡婕 — 待補
+  // 陳思妤 — 待補
+  // 第 13 位成員 — 待補
 ];
 
 // ── 權限檢查 ──────────────────────────────────────────────────

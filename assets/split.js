@@ -6,7 +6,21 @@
 
 const SPLIT_CONFIG = {
   APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx5NP0dO-Dp4JBXaPPBhmSjRuf9cCYKc-vZbGmMqtcOIkI2EhYI0mjoE8ojaysaIwph-w/exec',
-  ALLOWED_EMAILS: ['lml679939@gmail.com'],
+  ALLOWED_EMAILS: [
+    'lml679939@gmail.com',       // 葉祐誠
+    'joey930531@gmail.com',      // 吳孟剛
+    'yenyingho0203@gmail.com',   // 何姸穎
+    'amooli99054@gmail.com',     // 徐睿君
+    '040116panda@gmail.com',     // 鍾宜珊
+    'yuxuann.0218@gmail.com',    // 陳禹璇
+    'ken0965453937@gmail.com',   // 張旭廷
+    'a0981024358@gmail.com',     // 劉映彤
+    'chenpotsunnnn@gmail.com',   // 陳柏村
+    'csy.shunyiutw@gmail.com',   // 張舜堯（原始大寫 C 已轉小寫）
+    // 林苡婕 — 待補
+    // 陳思妤 — 待補
+    // 第 13 位成員 — 待補
+  ],
   DEFAULT_RATE: 4.2
 };
 
