@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>香港畢業旅行 ｜ 旅費分帳</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="https://accounts.google.com/gsi/client" async></script>
+</head>
+<body>
+  <div class="stripe-bar"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="hey">HEY · HONG KONG · 旅費分帳</span>
+      <h1 class="site-title">旅費分帳</h1>
+      <span class="site-sub">Google 登入 <span class="dot">●</span> 即時同步 <span class="dot">●</span> 自動結算</span>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html">🗺 行程表</a>
+      <a href="food.html">🍜 餐食資訊</a>
+      <a href="map.html">📍 景點地圖</a>
+      <a href="split.html" class="active">💰 旅費分帳</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ── 登入前 ── -->
+    <div id="loginSection">
+      <div class="split-login-box">
+        <h2 class="section-title" style="margin-top:0">登入後使用</h2>
+        <p class="section-desc">請使用旅遊成員的 Google 帳號登入，確保帳目紀錄正確。</p>
+        <!--
+          ⚠️ 設定步驟 1：將下方 data-client_id 的值換成你的 Google OAuth 用戶端 ID
+             取得方式：Google Cloud Console → API 和服務 → 憑證 → OAuth 2.0 用戶端 ID
+        -->
+        <div id="g_id_onload"
+          data-client_id="YOUR_GOOGLE_CLIENT_ID"
+          data-callback="handleCredentialResponse"
+          data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+          data-type="standard"
+          data-size="large"
+          data-theme="outline"
+          data-text="signin_with"
+          data-shape="rectangular"
+          data-locale="zh-TW">
+        </div>
+        <p class="split-hint">⚠ 僅限 13 位旅遊成員的 Google 帳號登入</p>
+      </div>
+    </div>
+
+    <!-- ── 登入後 ── -->
+    <div id="appSection" style="display:none">
+
+      <!-- 使用者列 -->
+      <div class="split-userbar" id="userBar"></div>
+
+      <!-- 匯率設定 -->
+      <div class="split-rate-bar">
+        <span>💱 匯率</span>
+        <span>1 HKD ＝</span>
+        <input type="number" id="rateInput" step="0.01" min="1" max="10">
+        <span>TWD</span>
+        <button id="saveRateBtn" class="filter-btn active">更新</button>
+        <span id="rateNote" class="split-rate-note"></span>
+      </div>
+
+      <!-- 新增費用 -->
+      <section>
+        <h2 class="section-title">新增費用</h2>
+        <div class="split-form">
+          <div class="split-form-row">
+            <div class="split-field">
+              <label>費用說明</label>
+              <input id="fDesc" type="text" placeholder="例：午餐・甘牌燒鵝">
+            </div>
+            <div class="split-field">
+              <label>金額（HKD）</label>
+              <input id="fAmount" type="number" placeholder="0" min="0" step="0.1">
+            </div>
+            <div class="split-field">
+              <label>由誰付款</label>
+              <select id="fPaidBy"></select>
+            </div>
+            <div class="split-field">
+              <label>日期</label>
+              <input id="fDate" type="date">
+            </div>
+          </div>
+          <div class="split-field">
+            <label>分攤成員（預設全選）</label>
+            <div class="split-checks" id="memberChecks"></div>
+            <div class="split-check-actions">
+              <button class="filter-btn" id="btnSelectAll">全選</button>
+              <button class="filter-btn" id="btnClearAll">清除</button>
+            </div>
+          </div>
+          <div id="fPreview" class="split-preview"></div>
+          <button id="btnSubmit" class="split-submit-btn">新增費用</button>
+        </div>
+      </section>
+
+      <!-- 費用明細 -->
+      <section style="margin-top:44px">
+        <h2 class="section-title">費用明細</h2>
+        <div id="expenseList"><p class="split-empty">載入中⋯</p></div>
+      </section>
+
+      <!-- 結算清單 -->
+      <section style="margin-top:44px">
+        <h2 class="section-title">結算清單</h2>
+        <p class="section-desc">以最少轉帳筆數結清所有費用。</p>
+        <div id="settlement"><p class="split-empty">費用載入後自動計算。</p></div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="stripe-bar"></div>
+  <footer class="site-footer">
+    <span class="hk">HEY HONG KONG</span> ｜ 香港畢業旅行 · 一起把回憶塞滿四天三夜 🇭🇰
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/split.js"></script>
+  <script src="assets/player.js"></script>
+</body>
+</html>
