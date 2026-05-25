@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>香港畢業旅行 ｜ 景點地圖</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="stripe-bar"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="hey">HEY · HONG KONG · 景點地圖</span>
+      <h1 class="site-title">景點地圖</h1>
+      <span class="site-sub">旺角 <span class="dot">●</span> 堅尼地城 <span class="dot">●</span> 尖沙咀</span>
+    </div>
+  </header>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html">🗺 行程表</a>
+      <a href="food.html">🍜 餐食資訊</a>
+      <a href="map.html" class="active">📍 景點地圖</a>
+    </div>
+  </nav>
+
+  <main>
+    <h2 class="section-title">景點地圖 Map</h2>
+    <p class="section-desc">點選標記查看景點資訊，點「Google Maps」可開啟導航。</p>
+
+    <div class="day-tabs" id="mapFilters"></div>
+    <div id="map"></div>
+    <div class="map-legend" id="mapLegend"></div>
+  </main>
+
+  <div class="stripe-bar"></div>
+  <footer class="site-footer">
+    <span class="hk">HEY HONG KONG</span> ｜ 香港畢業旅行 · 一起把回憶塞滿四天三夜 🇭🇰
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="assets/map.js"></script>
+  <script src="assets/player.js"></script>
+</body>
+</html>
