@@ -6,7 +6,7 @@
 
 const SPLIT_CONFIG = {
   APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx5NP0dO-Dp4JBXaPPBhmSjRuf9cCYKc-vZbGmMqtcOIkI2EhYI0mjoE8ojaysaIwph-w/exec',
-  ALLOWED_EMAILS: [],
+  ALLOWED_EMAILS: ['lml679939@gmail.com'],
   DEFAULT_RATE: 4.2
 };
 
