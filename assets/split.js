@@ -58,7 +58,7 @@ const DATE_LABELS = {
 
 let currentUser = null;
 let expenses    = [];
-const rate      = SPLIT_CONFIG.DEFAULT_RATE;
+let rate        = SPLIT_CONFIG.DEFAULT_RATE;
 
 /* ── Google Sign-In（全域函式，由 GSI library 呼叫） ── */
 
@@ -119,8 +119,23 @@ function signOut() {
 
 /* ── 匯率 ── */
 
-function initRateBar() {
-  document.getElementById('rateDisplay').textContent = rate;
+async function initRateBar() {
+  const el = document.getElementById('rateDisplay');
+  el.textContent = '載入中…';
+  try {
+    const res  = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/hkd.min.json');
+    const data = await res.json();
+    const live = data.hkd?.twd;
+    if (live && live > 0) {
+      rate = Math.round(live * 100) / 100;
+      el.innerHTML = `${rate} <small class="rate-source">（實時・${data.date}）</small>`;
+    } else {
+      throw new Error('無匯率資料');
+    }
+  } catch {
+    rate = SPLIT_CONFIG.DEFAULT_RATE;
+    el.innerHTML = `${rate} <small class="rate-source">（預設值）</small>`;
+  }
 }
 
 /* ── 新增費用表單 ── */
