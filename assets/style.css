@@ -644,6 +644,9 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
 }
 .split-field input:focus,
 .split-field select:focus { outline: 2px solid var(--yellow); outline-offset: 1px; }
+.split-amount-wrap { display: flex; gap: 0; }
+.split-amount-wrap input { flex: 1; border-right: none; }
+.split-amount-wrap select { width: 72px; border-left: 2px solid var(--navy); flex-shrink: 0; }
 
 .split-checks {
   display: flex;

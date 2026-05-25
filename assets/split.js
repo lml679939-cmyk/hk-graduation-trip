@@ -133,6 +133,7 @@ function initForm() {
   });
 
   document.getElementById('fAmount').addEventListener('input', updatePreview);
+  document.getElementById('fCurrency').addEventListener('change', updatePreview);
   document.getElementById('fPaidBy').addEventListener('change', updatePreview);
   checksEl.addEventListener('change', updatePreview);
 
@@ -144,17 +145,21 @@ function getChecked() {
 }
 
 function updatePreview() {
-  const amount = parseFloat(document.getElementById('fAmount').value) || 0;
-  const ppl    = getChecked();
-  const el     = document.getElementById('fPreview');
+  const amount   = parseFloat(document.getElementById('fAmount').value) || 0;
+  const currency = document.getElementById('fCurrency').value;
+  const ppl      = getChecked();
+  const el       = document.getElementById('fPreview');
   if (amount <= 0 || !ppl.length) { el.innerHTML = ''; return; }
-  const per = amount / ppl.length;
+  const amountHKD = currency === 'TWD' ? amount / rate : amount;
+  const per = amountHKD / ppl.length;
   el.innerHTML = `每人 <b>HKD ${per.toFixed(1)}</b>（約 TWD ${Math.round(per * rate)}）· 共 ${ppl.length} 人分攤`;
 }
 
 async function submitExpense() {
   const desc         = document.getElementById('fDesc').value.trim();
-  const amount       = parseFloat(document.getElementById('fAmount').value);
+  const rawAmount    = parseFloat(document.getElementById('fAmount').value);
+  const currency     = document.getElementById('fCurrency').value;
+  const amount       = currency === 'TWD' ? rawAmount / rate : rawAmount;
   const paidBy       = document.getElementById('fPaidBy').value;
   const date         = document.getElementById('fDate').value;
   const participants = getChecked();
