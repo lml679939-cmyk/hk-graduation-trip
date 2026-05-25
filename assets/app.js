@@ -123,31 +123,7 @@ function setupFilters() {
   });
 }
 
-/* ====== 深色模式 ====== */
-function initDarkMode() {
-  const btn = document.getElementById("darkToggle");
-  if (!btn) return;
-  const html = document.documentElement;
-  const update = () => {
-    const dark = html.getAttribute("data-theme") === "dark";
-    btn.textContent = dark ? "☀️" : "🌙";
-  };
-  update();
-  btn.addEventListener("click", () => {
-    const dark = html.getAttribute("data-theme") === "dark";
-    if (dark) {
-      html.removeAttribute("data-theme");
-      localStorage.setItem("theme", "light");
-    } else {
-      html.setAttribute("data-theme", "dark");
-      localStorage.setItem("theme", "dark");
-    }
-    update();
-  });
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   renderItinerary();
   renderFood();
-  initDarkMode();
 });
