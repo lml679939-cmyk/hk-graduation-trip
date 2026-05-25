@@ -5,7 +5,7 @@
 */
 
 const SPLIT_CONFIG = {
-  APPS_SCRIPT_URL: 'YOUR_APPS_SCRIPT_WEB_APP_URL',
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbx5NP0dO-Dp4JBXaPPBhmSjRuf9cCYKc-vZbGmMqtcOIkI2EhYI0mjoE8ojaysaIwph-w/exec',
   ALLOWED_EMAILS: [],
   DEFAULT_RATE: 4.2
 };
