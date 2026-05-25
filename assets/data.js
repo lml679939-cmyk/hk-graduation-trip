@@ -39,14 +39,14 @@ const ITINERARY = [
         time: "15:30後",
         act: "<span class='route-label'>總體路線</span>金華冰廳（下午茶）→ 彌敦道 & 朗豪坊 → 女人街 → 龍城冰室（晚餐）→ 波鞋街 → 花園街街市 → 旺角天橋 → 金魚街",
         places: [
-          { name: "彌敦街", desc: "逛街拍照", url: "https://maps.app.goo.gl/oXMLDvb3TTEYq8bw6" },
-          { name: "朗豪坊", desc: "逛街", url: "https://maps.app.goo.gl/UXAMt8hEFEqzsKAV6" },
-          { name: "星際城市", desc: "逛街（ccd）", url: "https://maps.app.goo.gl/uLRxfnQA75uQigie9" },
-          { name: "女人街", desc: "逛街", url: "https://maps.app.goo.gl/7cG7eiiAhFapycny6" },
-          { name: "波鞋街", desc: "逛街（一堆鞋子）", url: "https://maps.app.goo.gl/jKWszgM3X1z68SFq7" },
-          { name: "花園街", desc: "逛街（像菜市場）", url: "https://maps.app.goo.gl/zv3cSbNNAJrxGnt98" },
-          { name: "旺角天橋", desc: "拍照", url: "" },
-          { name: "金魚街", desc: "逛街拍照（有些不能拍）", url: "https://maps.app.goo.gl/EBmw8ZqsBJwWogzZ7" }
+          { name: "彌敦街", desc: "逛街拍照", url: "https://maps.app.goo.gl/oXMLDvb3TTEYq8bw6", lat: 22.3193, lng: 114.1694 },
+          { name: "朗豪坊", desc: "逛街", url: "https://maps.app.goo.gl/UXAMt8hEFEqzsKAV6", lat: 22.3185, lng: 114.1686 },
+          { name: "星際城市", desc: "逛街（ccd）", url: "https://maps.app.goo.gl/uLRxfnQA75uQigie9", lat: 22.3156, lng: 114.1677 },
+          { name: "女人街", desc: "逛街", url: "https://maps.app.goo.gl/7cG7eiiAhFapycny6", lat: 22.3191, lng: 114.1704 },
+          { name: "波鞋街", desc: "逛街（一堆鞋子）", url: "https://maps.app.goo.gl/jKWszgM3X1z68SFq7", lat: 22.3190, lng: 114.1693 },
+          { name: "花園街", desc: "逛街（像菜市場）", url: "https://maps.app.goo.gl/zv3cSbNNAJrxGnt98", lat: 22.3253, lng: 114.1723 },
+          { name: "旺角天橋", desc: "拍照", url: "", lat: 22.3222, lng: 114.1699 },
+          { name: "金魚街", desc: "逛街拍照（有些不能拍）", url: "https://maps.app.goo.gl/EBmw8ZqsBJwWogzZ7", lat: 22.3232, lng: 114.1711 }
         ],
         note: "<span class='meal-tag'>下午茶</span><a href='https://share.google/NEMJHs7hTd1iPcCxs' target='_blank'>金華冰廳</a>　<span class='meal-tag'>晚餐</span><a href='https://share.google/Uc4ng9bzPeYzCkOPq' target='_blank'>龍城冰室</a>　<span class='meal-tag'>飲料</span><a href='https://maps.app.goo.gl/BjchPzyRvegP8Pi56' target='_blank'>林香檸</a>"
       },
@@ -83,11 +83,11 @@ const ITINERARY = [
         time: "13:00",
         act: "<span class='route-label'>堅尼地城</span>籃球場 → 咖啡館 → 叮叮老香港辦館 → %Arabica → 海濱公園",
         places: [
-          { name: "堅尼地城籃球場", desc: "拍照", url: "https://maps.app.goo.gl/C8nqCh4RsdAy2ybu8" },
-          { name: "Winstons Coffee", desc: "拍照", url: "https://maps.app.goo.gl/AYHCsTEG4R5oVeTZA" },
-          { name: "叮叮老香港辦館", desc: "逛街", url: "https://share.google/1veSx4awqklHaaas7" },
-          { name: "% Arabica", desc: "喝咖啡", url: "https://maps.app.goo.gl/E3Wrsrhp8DJgbnng6" },
-          { name: "海濱公園", desc: "看海", url: "https://maps.app.goo.gl/XRnt816NaUvuEhNa6" }
+          { name: "堅尼地城籃球場", desc: "拍照", url: "https://maps.app.goo.gl/C8nqCh4RsdAy2ybu8", lat: 22.2822, lng: 114.1281 },
+          { name: "Winstons Coffee", desc: "拍照", url: "https://maps.app.goo.gl/AYHCsTEG4R5oVeTZA", lat: 22.2830, lng: 114.1285 },
+          { name: "叮叮老香港辦館", desc: "逛街", url: "https://share.google/1veSx4awqklHaaas7", lat: 22.2831, lng: 114.1283 },
+          { name: "% Arabica", desc: "喝咖啡", url: "https://maps.app.goo.gl/E3Wrsrhp8DJgbnng6", lat: 22.2837, lng: 114.1267 },
+          { name: "海濱公園", desc: "看海", url: "https://maps.app.goo.gl/XRnt816NaUvuEhNa6", lat: 22.2820, lng: 114.1261 }
         ],
         note: ""
       },
@@ -95,10 +95,10 @@ const ITINERARY = [
         time: "15:00",
         act: "<span class='route-label'>尖沙咀</span>Hashtag B → 九龍公園 → 華嫂冰室 → 星光大道 → 尖沙咀鐘樓 → 天星小輪 → 維多利亞港",
         places: [
-          { name: "九龍公園", desc: "休息玩耍", url: "https://share.google/wVf7PRAx1WwY7ak87" },
-          { name: "星光大道", desc: "逛逛", url: "https://share.google/2vmdIRzpCDkVzruQf" },
-          { name: "尖沙咀鐘樓", desc: "地標", url: "https://share.google/hTNGpBNjfOGwk7pBB" },
-          { name: "天星碼頭", desc: "搭船", url: "https://share.google/J4R8eQNgS2g2lgH2i" },
+          { name: "九龍公園", desc: "休息玩耍", url: "https://share.google/wVf7PRAx1WwY7ak87", lat: 22.3014, lng: 114.1699 },
+          { name: "星光大道", desc: "逛逛", url: "https://share.google/2vmdIRzpCDkVzruQf", lat: 22.2892, lng: 114.1715 },
+          { name: "尖沙咀鐘樓", desc: "地標", url: "https://share.google/hTNGpBNjfOGwk7pBB", lat: 22.2939, lng: 114.1710 },
+          { name: "天星碼頭", desc: "搭船", url: "https://share.google/J4R8eQNgS2g2lgH2i", lat: 22.2940, lng: 114.1686 },
           { name: "維多利亞港", desc: "坐船經過", url: "" }
         ],
         note: "<span class='meal-tag'>下午茶</span><a href='https://www.hashtag-b.com/pages/contact-us' target='_blank'>Hashtag B 蛋塔</a>　<span class='meal-tag'>晚餐</span><a href='https://share.google/zNeadf2wUfntFD6sA' target='_blank'>華嫂冰室</a><br>＊富貴雪糕是流動餐車，可看有沒有<br>＊<a href='https://www.bigfang.tw/blog/post/starferry-hk' target='_blank'>天星小輪</a>票價：上層 $5.0 / 下層 $4.0"
