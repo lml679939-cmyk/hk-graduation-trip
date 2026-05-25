@@ -98,6 +98,8 @@ body {
 }
 .nav a {
   display: inline-block;
+  flex: 1 1 0;
+  text-align: center;
   padding: 14px 20px;
   font-weight: 900;
   text-decoration: none;
