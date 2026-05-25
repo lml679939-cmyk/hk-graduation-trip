@@ -12,6 +12,10 @@
 **技術**：純靜態 HTML/CSS/JS，無需建置步驟，直接開啟檔案或部署到 GitHub Pages  
 **本機預覽**：`python -m http.server 5500`（launch.json 已設好）
 
+**GitHub Repo**：https://github.com/lml679939-cmyk/hk-graduation-trip  
+**GitHub Pages（公開網址）**：https://lml679939-cmyk.github.io/hk-graduation-trip/  
+（Pages 已啟用：main branch / root，設定後 1–2 分鐘生效）
+
 ---
 
 ## 檔案結構
@@ -190,6 +194,20 @@ python -m http.server 5500
 ```
 
 Claude Code 裡可直接用 preview_start（name: "hk-trip"）啟動。
+
+## 部署流程（GitHub Pages）
+
+```bash
+# 修改完後，推上 GitHub，Pages 自動更新（約 1 分鐘）
+git add .
+git commit -m "補充 Day 3 行程"
+git push
+
+# 查看線上網址
+# https://lml679939-cmyk.github.io/hk-graduation-trip/
+```
+
+> **注意**：git push 使用 Git Credential Manager（Windows），GitHub Desktop 登入後的 token 會自動帶入，不需要另外輸入密碼。若遇到認證問題，重新開啟 GitHub Desktop 登入即可。
 
 ---
 
