@@ -136,7 +136,7 @@ const RESTAURANTS = [
     addr: "🚇 旺角站（B3 出口 2 分鐘）\n香港旺角弼街 45–47 號",
     hours: "星期一至日 06:30–22:00",
     review: "號稱香港第一菠蘿油，冰火菠蘿油評價兩極，可評估要不要點。",
-    book: "+852 2392 683　可預約",
+    book: "+852 2392 683　可預約\n<a href='https://autoreserve.com/zh-hk/restaurants/bC9a1ifjvGuu4vATALFw' target='_blank'>線上訂位 →</a>",
     other: "每人有低消。只想吃菠蘿油買外帶比較快；建議在門口先想好要點什麼。"
   },
   {
@@ -208,7 +208,7 @@ const RESTAURANTS = [
     addr: "🚇 上環站（A2 出口 5 分鐘）/ 中環站（D1 出口 9 分鐘）\n上環德輔道中 249 號地下 9、10 號舖 1、2 樓",
     hours: "星期一至日 06:00–00:00\n早市 06:00–10:00（點心）\n午市 11:00–16:00\n晚市 18:00–22:00（粵菜正餐）",
     review: "友人：小貴但必吃！網友推：蟹籽燒賣皇、鮮蝦滑腸粉 👍👍、蓮香蝦餃皇、奶皇流沙包、豉汁蒸鳳爪、椰皇燕窩燉鮮奶、蜜汁叉燒包、懷舊馬拉糕、臘味蘿蔔糕、懷舊糯米雞…",
-    book: "+852 2116 067　可預約",
+    book: "+852 2116 067　可預約\n<a href='https://inline.app/booking/-O31tPdJVLyUNiyBAg9F:inline-live-3?language=zh-hk' target='_blank'>線上訂位 →</a>",
     other: "用餐區在 2 樓；港式 SOP：第一泡茶用來沖燙餐具。小點25/中點30/大點35/特點38/頂點42。"
   },
   {

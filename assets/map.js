@@ -38,6 +38,65 @@ function popupHTML(p) {
   return `<b style="font-size:14px;font-family:'Noto Sans TC',sans-serif">${p.name}</b><br><span style="color:#666;font-size:12px">${p.desc}</span>${mapLink}`;
 }
 
+function buildPlaceLists(map, dayMarkers, tabBtns, allDays) {
+  const container = document.getElementById("placeLists");
+  if (!container) return;
+
+  const title = document.createElement("h3");
+  title.className = "section-title place-list-title";
+  title.textContent = "景點行程清單";
+  container.appendChild(title);
+
+  const desc = document.createElement("p");
+  desc.className = "section-desc";
+  desc.textContent = "點選景點跳至地圖對應位置。";
+  container.appendChild(desc);
+
+  const grid = document.createElement("div");
+  grid.className = "place-list-section";
+  container.appendChild(grid);
+
+  allDays.forEach(d => {
+    const items = dayMarkers[d];
+    if (!items || items.length === 0) return;
+
+    const info = DAY_COLORS[d];
+    const dayObj = ITINERARY.find(it => it.day === d);
+    const regionName = info?.label?.split("　")[1] || "";
+
+    const group = document.createElement("div");
+    group.className = "place-list-group";
+    group.style.setProperty("--day-color", info?.color || "#888");
+
+    const head = document.createElement("div");
+    head.className = "place-list-head";
+    head.innerHTML = `<span class="place-list-badge">Day ${d}</span><span class="place-list-region">${regionName}</span><small>${dayObj?.date || ""}</small>`;
+    group.appendChild(head);
+
+    items.forEach(({ place, marker }, idx) => {
+      const item = document.createElement("div");
+      item.className = "place-list-item";
+      item.innerHTML = `
+        <span class="place-num">${idx + 1}</span>
+        <div class="place-info">
+          <span class="place-name">${place.name}</span>
+          <span class="place-desc">${place.desc}</span>
+        </div>
+        <span class="place-go">→</span>
+      `;
+      item.addEventListener("click", () => {
+        const tabBtn = tabBtns[d];
+        if (tabBtn && !tabBtn.classList.contains("active")) tabBtn.click();
+        map.once("moveend", () => marker.openPopup());
+        map.flyTo([place.lat, place.lng], 17, { duration: 0.8 });
+      });
+      group.appendChild(item);
+    });
+
+    grid.appendChild(group);
+  });
+}
+
 function initMap() {
   const map = L.map("map").setView(HK_CENTER, 13);
 
@@ -48,9 +107,11 @@ function initMap() {
 
   const places = getMapPlaces();
   const layerGroups = {};
+  const dayMarkers = {};
 
   Object.keys(DAY_COLORS).forEach(d => {
     layerGroups[d] = L.layerGroup().addTo(map);
+    dayMarkers[d] = [];
   });
 
   places.forEach(p => {
@@ -58,10 +119,13 @@ function initMap() {
     const marker = L.marker([p.lat, p.lng], { icon: makeIcon(color) });
     marker.bindPopup(popupHTML(p), { maxWidth: 220, className: "map-popup" });
     layerGroups[p.day].addLayer(marker);
+    if (!dayMarkers[p.day]) dayMarkers[p.day] = [];
+    dayMarkers[p.day].push({ place: p, marker });
   });
 
   const filtersEl = document.getElementById("mapFilters");
   const allDays = [...new Set(places.map(p => p.day))].sort();
+  const tabBtns = {};
 
   const makeTab = (label, dayKey, small) => {
     const btn = document.createElement("button");
@@ -75,6 +139,7 @@ function initMap() {
         show ? map.addLayer(layerGroups[d]) : map.removeLayer(layerGroups[d]);
       });
     });
+    tabBtns[dayKey] = btn;
     return btn;
   };
 
@@ -92,6 +157,8 @@ function initMap() {
     span.innerHTML = `<i style="background:${info.color}"></i>${info.label}`;
     legendEl.appendChild(span);
   });
+
+  buildPlaceLists(map, dayMarkers, tabBtns, allDays);
 }
 
 document.addEventListener("DOMContentLoaded", initMap);
