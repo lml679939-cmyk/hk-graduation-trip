@@ -191,9 +191,6 @@ function updateExpense(exp, email) {
   const rows  = sheet.getDataRange().getValues();
   for (let i = 1; i < rows.length; i++) {
     if (String(rows[i][0]) === String(exp.id)) {
-      if (ALLOWED_EMAILS.length > 0 && rows[i][8] !== email) {
-        return json({ ok: false, error: '只有記帳人本人可以編輯' });
-      }
       const paidByArr = Array.isArray(exp.paidBy) ? exp.paidBy : [exp.paidBy];
       sheet.getRange(i + 1, 3).setValue(exp.date        || '');
       sheet.getRange(i + 1, 4).setValue(exp.desc);

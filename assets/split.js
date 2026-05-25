@@ -322,7 +322,7 @@ function expenseRowHTML(e) {
         <b>${payers.join('、')}</b> 付款 · ${e.participants.length} 人均分
         （每人 HKD ${per.toFixed(1)} ≈ TWD ${Math.round(per * rate)}）
         · 記帳：${e.submittedBy}
-        ${isMine ? `<button class="split-edit-btn" data-id="${e.id}">編輯</button>` : ''}
+        <button class="split-edit-btn" data-id="${e.id}">編輯</button>
         ${isMine ? `<button class="split-del-btn" data-id="${e.id}">刪除</button>` : ''}
       </div>
       ${e.receiptData ? `<img class="split-receipt-thumb" src="${e.receiptData}" alt="收據" title="點擊放大" onclick="window.open(this.src)">` : ''}
