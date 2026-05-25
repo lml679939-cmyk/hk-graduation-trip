@@ -25,7 +25,7 @@ const DATE_LABELS = {
 
 let currentUser = null;
 let expenses    = [];
-let rate        = parseFloat(localStorage.getItem('hkd_rate') || SPLIT_CONFIG.DEFAULT_RATE);
+const rate      = SPLIT_CONFIG.DEFAULT_RATE;
 
 /* ── Google Sign-In（全域函式，由 GSI library 呼叫） ── */
 
@@ -86,21 +86,7 @@ function signOut() {
 /* ── 匯率 ── */
 
 function initRateBar() {
-  document.getElementById('rateInput').value = rate;
-  const saved = localStorage.getItem('rate_updated');
-  if (saved) document.getElementById('rateNote').textContent = `（更新於 ${saved}）`;
-
-  document.getElementById('saveRateBtn').addEventListener('click', () => {
-    const v = parseFloat(document.getElementById('rateInput').value);
-    if (!v || v <= 0) return;
-    rate = v;
-    const today = new Date().toLocaleDateString('zh-TW');
-    localStorage.setItem('hkd_rate', String(rate));
-    localStorage.setItem('rate_updated', today);
-    document.getElementById('rateNote').textContent = `（更新於 ${today}）`;
-    renderExpenses();
-    renderSettlement();
-  });
+  document.getElementById('rateDisplay').textContent = rate;
 }
 
 /* ── 新增費用表單 ── */
