@@ -30,6 +30,23 @@ const MEMBERS = [
   // ⚠️ 共 12 人，若有第 13 位成員請在此補上名字
 ];
 
+const EMAIL_TO_NAME = {
+  'lml679939@gmail.com':       '葉祐誠',
+  'joey930531@gmail.com':      '吳孟剛',
+  'yenyingho0203@gmail.com':   '何姸穎',
+  'amooli99054@gmail.com':     '徐睿君',
+  '040116panda@gmail.com':     '鍾宜珊',
+  'yuxuann.0218@gmail.com':    '陳禹璇',
+  'ken0965453937@gmail.com':   '張旭廷',
+  'a0981024358@gmail.com':     '劉映彤',
+  'chenpotsunnnn@gmail.com':   '陳柏村',
+  'csy.shunyiutw@gmail.com':   '張舜堯',
+};
+
+function displayName(email, fallback) {
+  return EMAIL_TO_NAME[email] || fallback;
+}
+
 const DATE_LABELS = {
   '2026-06-29': 'Day 1 · 6/29（一）旺角',
   '2026-06-30': 'Day 2 · 6/30（二）灣仔・堅尼地城・尖沙咀',
@@ -321,7 +338,7 @@ function expenseRowHTML(e) {
       <div class="split-exp-meta">
         <b>${payers.join('、')}</b> 付款 · ${e.participants.length} 人均分
         （每人 HKD ${per.toFixed(1)} ≈ TWD ${Math.round(per * rate)}）
-        · 記帳：${e.submittedBy}
+        · 記帳：${displayName(e.submittedByEmail, e.submittedBy)}
         <button class="split-edit-btn" data-id="${e.id}">編輯</button>
         ${isMine ? `<button class="split-del-btn" data-id="${e.id}">刪除</button>` : ''}
       </div>
