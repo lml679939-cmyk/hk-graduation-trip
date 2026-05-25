@@ -17,8 +17,8 @@ const SPLIT_CONFIG = {
     'a0981024358@gmail.com',     // 劉映彤
     'chenpotsunnnn@gmail.com',   // 陳柏村
     'csy.shunyiutw@gmail.com',   // 張舜堯（原始大寫 C 已轉小寫）
-    // 林苡婕 — 待補
-    // 陳思妤 — 待補
+    'rita.happybear@gmail.com',  // 陳思妤
+    'linyvonne9313@gmail.com',   // 林苡婕
     // 第 13 位成員 — 待補
   ],
   DEFAULT_RATE: 4.2
@@ -41,6 +41,8 @@ const EMAIL_TO_NAME = {
   'a0981024358@gmail.com':     '劉映彤',
   'chenpotsunnnn@gmail.com':   '陳柏村',
   'csy.shunyiutw@gmail.com':   '張舜堯',
+  'rita.happybear@gmail.com':  '陳思妤',
+  'linyvonne9313@gmail.com':   '林苡婕',
 };
 
 function displayName(email, fallback) {
