@@ -1,8 +1,10 @@
 /* ====== 景點地圖 ====== */
 
 const DAY_COLORS = {
-  1: { color: "#d4332f", label: "Day 1　旺角" },
-  2: { color: "#16306e", label: "Day 2　灣仔・堅尼地城・尖沙咀" }
+  1: { color: "#d4332f", label: "Day 1　尖沙咀・旺角" },
+  2: { color: "#16306e", label: "Day 2　海洋公園・灣仔" },
+  3: { color: "#c87c00", label: "Day 3　旺角・淺水灣・赤柱" },
+  4: { color: "#2e7d32", label: "Day 4　堅尼地城・中環" }
 };
 
 const EXCHANGE_COLOR = "#2e8b57";

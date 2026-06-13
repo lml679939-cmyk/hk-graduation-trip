@@ -1,14 +1,12 @@
-/* ====== 香港畢業旅行 資料檔 ======
-   之後補 Day 3、Day 4 時，把 itinerary 裡 status:"soon" 的物件
-   改成 status:"done" 並填入 route / items 即可。 */
+/* ====== 香港畢業旅行 資料檔 ====== */
 
 const ITINERARY = [
   {
     day: 1,
     date: "6/29（一）",
     status: "done",
-    title: "台灣 → 港機 → 旺角",
-    route: "金華冰廳 → 彌敦道 & 朗豪坊 → 女人街 → 龍城冰室 → 波鞋街 → 花園街街市 → 旺角天橋 → 金魚街",
+    title: "台灣 → 港機 → 尖沙咀 → 旺角",
+    route: "Hashtag B 蛋塔 → 九龍公園 → 華嫂冰室 → 星光大道 → 天星小輪 → 旺角宵夜",
     items: [
       {
         time: "8:00",
@@ -36,8 +34,103 @@ const ITINERARY = [
         note: "csy、Ting 一起集合"
       },
       {
-        time: "15:30後",
-        act: "<span class='route-label'>總體路線</span>金華冰廳（下午茶）→ 彌敦道 & 朗豪坊 → 女人街 → 龍城冰室（晚餐）→ 波鞋街 → 花園街街市 → 旺角天橋 → 金魚街",
+        time: "15:30–15:45",
+        act: "地鐵到尖沙咀 — 太子站 → 荃灣線（往中環）→ 尖沙咀站",
+        note: ""
+      },
+      {
+        time: "15:45–18:30",
+        act: "<span class='route-label'>尖沙咀</span>Hashtag B → 九龍公園 → 華嫂冰室 → 星光大道 → 尖沙咀鐘樓 → 天星碼頭 → 天星小輪",
+        places: [
+          { name: "Hashtag B 蛋塔", desc: "下午茶（外帶）", url: "https://www.hashtag-b.com/pages/contact-us", lat: 22.2973, lng: 114.1739 },
+          { name: "九龍公園", desc: "休息玩耍", url: "https://share.google/wVf7PRAx1WwY7ak87", lat: 22.3014, lng: 114.1699 },
+          { name: "華嫂冰室", desc: "晚餐", url: "https://share.google/zNeadf2wUfntFD6sA", lat: 22.2975, lng: 114.1763 },
+          { name: "星光大道", desc: "逛逛", url: "https://share.google/2vmdIRzpCDkVzruQf", lat: 22.2892, lng: 114.1715 },
+          { name: "尖沙咀鐘樓", desc: "地標", url: "https://share.google/hTNGpBNjfOGwk7pBB", lat: 22.2939, lng: 114.1710 },
+          { name: "天星碼頭", desc: "搭船", url: "https://share.google/J4R8eQNgS2g2lgH2i", lat: 22.2940, lng: 114.1686 }
+        ],
+        note: "<span class='meal-tag'>下午茶</span><a href='https://www.hashtag-b.com/pages/contact-us' target='_blank'>Hashtag B 蛋塔</a>（尖沙咀出爐時間 11:00 / 17:00）　<span class='meal-tag'>晚餐</span><a href='https://share.google/zNeadf2wUfntFD6sA' target='_blank'>華嫂冰室</a><br>＊富貴雪糕是流動餐車，可看有沒有"
+      },
+      {
+        time: "18:30–19:30",
+        act: "天星小輪看維港（會搭到中環）",
+        note: "＊<a href='https://www.bigfang.tw/blog/post/starferry-hk' target='_blank'>天星小輪</a>票價：上層 $5.0 / 下層 $4.0"
+      },
+      {
+        time: "19:30–20:00",
+        act: "中環回旺角",
+        note: "地鐵：中環站 → 荃灣線（往荃灣）→ 旺角站"
+      },
+      {
+        time: "20:00",
+        act: "旺角夜生活＋宵夜局",
+        note: "<span class='meal-tag'>宵夜</span><a href='https://maps.app.goo.gl/Yzjhvo3Lfkn2ZSWV8' target='_blank'>標記樂園潮州粉麵菜館</a>"
+      }
+    ]
+  },
+  {
+    day: 2,
+    date: "6/30（二）",
+    status: "done",
+    title: "旺角 → 海洋公園 → 灣仔 → 太平山頂",
+    route: "金華冰廳 → 海洋公園 → 甘牌燒鵝 → 太平山頂纜車",
+    items: [
+      {
+        time: "8:30",
+        act: "早餐集合（金華冰廳）",
+        note: "想吃早餐的大廳集合<br><span class='meal-tag'>早餐</span><a href='https://share.google/NEMJHs7hTd1iPcCxs' target='_blank'>金華冰廳</a>"
+      },
+      {
+        time: "9:50",
+        act: "大廳集合，出發去海洋公園",
+        note: "csy、Ting 一起集合"
+      },
+      {
+        time: "10:30",
+        act: "抵達海洋公園，玩一整天！",
+        places: [
+          { name: "海洋公園", desc: "玩一整天！", url: "https://www.klook.com/zh-TW/activity/23-ocean-park-hong-kong-hong-kong/", lat: 22.2478, lng: 114.1748 }
+        ],
+        note: "地鐵：太子站 → 荃灣線（往中環）→ 金鐘站 → 轉南港島線 → 海洋公園站<br>＊<a href='https://www.klook.com/zh-TW/activity/23-ocean-park-hong-kong-hong-kong/' target='_blank'>上網購票約 1,360 元台幣</a>；現場成人票約 2,030 元<br><span class='meal-tag'>午餐</span>自理"
+      },
+      {
+        time: "18:00",
+        act: "搭地鐵到灣仔吃晚餐",
+        places: [
+          { name: "甘牌燒鵝", desc: "晚餐", url: "https://www.bigfang.tw/blog/post/kams-roast-goose-hk", lat: 22.2771, lng: 114.1740 }
+        ],
+        note: "地鐵：海洋公園站 → 南港島線（往金鐘）→ 金鐘站 → 港島線（往柴灣）→ 灣仔站<br><span class='meal-tag'>晚餐</span><a href='https://www.bigfang.tw/blog/post/kams-roast-goose-hk' target='_blank'>甘牌燒鵝</a>（11:30 開，需現場抽號碼牌排隊）"
+      },
+      {
+        time: "19:30–20:30",
+        act: "到太平山頂看夜景",
+        places: [
+          { name: "太平山頂", desc: "俯瞰夜景", url: "https://www.thepeak.com.hk/", lat: 22.2709, lng: 114.1483 }
+        ],
+        note: "step① 叮叮車：走到柯布連道站 → 搭叮叮車（往西）→ 銀行街站<br>step② 纜車：走到中環花園道山頂纜車總站買票上山<br>＊纜車單程：港幣 $82"
+      },
+      {
+        time: "22:00–23:00",
+        act: "回飯店",
+        note: "step① 小巴：山頂廣場（下層）→ <b>港島專線小巴 1 號線</b> → <b>畢打街（近中環站 D1 出口）</b><br>step② 地鐵：中環站 → 荃灣線（往荃灣）→ 太子站"
+      }
+    ]
+  },
+  {
+    day: 3,
+    date: "7/1（三）",
+    status: "done",
+    title: "旺角 → 淺水灣 → 赤柱 → 尖沙咀",
+    route: "龍城冰室 → 旺角逛街 → 淺水灣（Caffè Parabolica）→ 赤柱 → 炯記燒味",
+    items: [
+      {
+        time: "9:20",
+        act: "早餐集合（龍城冰室）",
+        note: "想吃早餐的大廳集合（csy、Ting 一起集合）<br><span class='meal-tag'>早餐</span><a href='https://share.google/Uc4ng9bzPeYzCkOPq' target='_blank'>龍城冰室</a>"
+      },
+      {
+        time: "10:30–12:00",
+        act: "<span class='route-label'>旺角逛街</span>彌敦道 & 朗豪坊 → 星際城市 → 女人街 → 波鞋街 → 花園街街市 → 旺角天橋 → 金魚街",
         places: [
           { name: "彌敦街", desc: "逛街拍照", url: "https://maps.app.goo.gl/oXMLDvb3TTEYq8bw6", lat: 22.3193, lng: 114.1694 },
           { name: "朗豪坊", desc: "逛街", url: "https://maps.app.goo.gl/UXAMt8hEFEqzsKAV6", lat: 22.3185, lng: 114.1686 },
@@ -48,40 +141,71 @@ const ITINERARY = [
           { name: "旺角天橋", desc: "拍照", url: "", lat: 22.3222, lng: 114.1699 },
           { name: "金魚街", desc: "逛街拍照（有些不能拍）", url: "https://maps.app.goo.gl/EBmw8ZqsBJwWogzZ7", lat: 22.3232, lng: 114.1711 }
         ],
-        note: "<span class='meal-tag'>下午茶</span><a href='https://share.google/NEMJHs7hTd1iPcCxs' target='_blank'>金華冰廳</a>　<span class='meal-tag'>晚餐</span><a href='https://share.google/Uc4ng9bzPeYzCkOPq' target='_blank'>龍城冰室</a>　<span class='meal-tag'>飲料</span><a href='https://maps.app.goo.gl/BjchPzyRvegP8Pi56' target='_blank'>林香檸</a>"
-      },
-      {
-        time: "19:30",
-        act: "自由行（以下參考）：<br>① <b>打泰拳</b> — Ole Muay Thai & Fitness 或 RMG Muaythai & Fitness Gym（距飯店步行 5 分鐘內）<br>② <b>落日飛車</b> — 去中環六號碼頭搭乘，最推 <a href='https://www.discoverhongkong.com/tc/deals/hong-kong-night-bus-tour.html' target='_blank'>H2K 夜遊巴士</a><br>③ 回飯店把公設用到底",
         note: ""
       },
       {
-        time: "22:00",
-        act: "宵夜局（想吃就來吃，不吃也沒差）",
-        note: "<span class='meal-tag'>宵夜</span><a href='https://maps.app.goo.gl/' target='_blank'>標記樂園潮州粉麵菜館</a>"
+        time: "12:00–13:00",
+        act: "搭車前往淺水灣",
+        note: "step① 地鐵：旺角站 → 荃灣線（往金鐘）→ 金鐘站<br>step② 公車：金鐘站 B 出口 → 金鐘站（西座）巴士總站 → <b>城巴 260</b>（往赤柱村方向）→ 淺水灣海灘站"
+      },
+      {
+        time: "13:00",
+        act: "<span class='route-label'>淺水灣</span>Caffè Parabolica（午餐）→ 淺水灣泳灘 → 淺水灣影灣園（張愛玲）",
+        places: [
+          { name: "Caffè Parabolica", desc: "午餐", url: "https://www.caffeparabolica.com/", lat: 22.2380, lng: 114.1955 },
+          { name: "淺水灣泳灘", desc: "逛逛看海", url: "https://maps.app.goo.gl/DyFbJnqbEMqsmHuY6", lat: 22.2362, lng: 114.1971 },
+          { name: "淺水灣影灣園", desc: "張愛玲聖地", url: "", lat: 22.2375, lng: 114.1949 }
+        ],
+        note: "<span class='meal-tag'>午餐</span><a href='https://www.caffeparabolica.com/' target='_blank'>Caffè Parabolica</a>　⚠️ 人多請提前（最好兩週前）預約！"
+      },
+      {
+        time: "15:30",
+        act: "搭車去赤柱",
+        note: "公車：淺水灣海灘站 → <b>城巴 260</b> / 城巴 6（往赤柱村方向）→ 海灣園; 赤柱村道站"
+      },
+      {
+        time: "16:00",
+        act: "<span class='route-label'>赤柱</span>赤柱大街逛逛",
+        places: [
+          { name: "赤柱大街", desc: "逛街", url: "https://maps.app.goo.gl/NYCcYuqtSYXEGVZJA", lat: 22.2186, lng: 114.2122 }
+        ],
+        note: ""
+      },
+      {
+        time: "18:00",
+        act: "落日飛車回中環 — 觀光城巴 H4 線",
+        note: "走到赤柱警署（赤柱村道站）→ 搭<b>觀光城巴 H4 線</b> → 中環（香港摩天輪）<br>＊H4 票價：港幣 $49.7"
+      },
+      {
+        time: "19:00–19:30",
+        act: "搭地鐵到尖沙咀吃晚餐",
+        places: [
+          { name: "炯記燒味", desc: "晚餐", url: "https://www.google.com/maps/search/?api=1&query=炯記燒味+尖沙咀樂道", lat: 22.2985, lng: 114.1742 }
+        ],
+        note: "地鐵：中環站 → 荃灣線（往荃灣）→ 尖沙咀站<br><span class='meal-tag'>晚餐</span><a href='https://www.google.com/maps/search/?api=1&query=炯記燒味+尖沙咀' target='_blank'>炯記燒味（尖沙咀）</a>"
+      },
+      {
+        time: "20:30–21:00",
+        act: "搭地鐵回飯店",
+        note: "地鐵：尖沙咀站 → 荃灣線（往荃灣）→ 旺角站"
       }
     ]
   },
   {
-    day: 2,
-    date: "6/30（二）",
+    day: 4,
+    date: "7/2（四）",
     status: "done",
-    title: "旺角 → 灣仔 → 堅尼地城 → 尖沙咀 → 旺角",
-    route: "甘牌燒鵝 → 堅尼地城（籃球場 / 咖啡 / %Arabica / 海濱）→ 尖沙咀（蛋塔 / 華嫂冰室 / 星光大道 / 天星小輪）→ 太平山頂",
+    title: "旺角 → 堅尼地城 → 中環 → 港機",
+    route: "新興食家 → 堅尼地城（籃球場 / %Arabica / 海濱公園）→ 蓮香樓 → 中環 → 機場",
     items: [
       {
         time: "10:30",
-        act: "大廳集合",
-        note: "9:00 要吃早餐的大廳集合（csy、Ting 一起集合）"
+        act: "大廳集合退房",
+        note: "csy、Ting 一起集合"
       },
       {
-        time: "11:00",
-        act: "去灣仔吃午餐，然後搭叮叮車過去堅尼地城",
-        note: "<span class='meal-tag'>午餐</span><a href='https://www.bigfang.tw/blog/post/kams-roast-goose-hk' target='_blank'>甘牌燒鵝</a>（11:30 開，建議開門前過去）"
-      },
-      {
-        time: "13:00",
-        act: "<span class='route-label'>堅尼地城</span>籃球場 → 咖啡館 → 叮叮老香港辦館 → %Arabica → 海濱公園",
+        time: "11:00–14:30",
+        act: "<span class='route-label'>堅尼地城</span>籃球場 → Winstons Coffee → 叮叮老香港辦館 → %Arabica → 海濱公園",
         places: [
           { name: "堅尼地城籃球場", desc: "拍照", url: "https://maps.app.goo.gl/C8nqCh4RsdAy2ybu8", lat: 22.2822, lng: 114.1281 },
           { name: "Winstons Coffee", desc: "拍照", url: "https://maps.app.goo.gl/AYHCsTEG4R5oVeTZA", lat: 22.2830, lng: 114.1285 },
@@ -89,29 +213,42 @@ const ITINERARY = [
           { name: "% Arabica", desc: "喝咖啡", url: "https://maps.app.goo.gl/E3Wrsrhp8DJgbnng6", lat: 22.2837, lng: 114.1267 },
           { name: "海濱公園", desc: "看海", url: "https://maps.app.goo.gl/XRnt816NaUvuEhNa6", lat: 22.2820, lng: 114.1261 }
         ],
-        note: ""
+        note: "地鐵：太子站 → 荃灣線（往中環）→ 轉港島線 → 堅尼地城站<br><span class='meal-tag'>早午餐</span><a href='https://www.google.com/maps/search/?api=1&query=新興食家+堅尼地城' target='_blank'>新興食家</a>"
       },
       {
-        time: "15:00",
-        act: "<span class='route-label'>尖沙咀</span>Hashtag B → 九龍公園 → 華嫂冰室 → 星光大道 → 尖沙咀鐘樓 → 天星小輪 → 維多利亞港",
+        time: "14:30–15:00",
+        act: "搭叮叮車去中環",
+        note: "叮叮車：北街站 → 搭叮叮車（往東）→ 禧利街站"
+      },
+      {
+        time: "15:00–17:00",
+        act: "<span class='route-label'>中環</span>蓮香樓（下午茶）→ 中環摩天輪 → 中環街市 → 半山扶梯 → Bakehouse",
         places: [
-          { name: "九龍公園", desc: "休息玩耍", url: "https://share.google/wVf7PRAx1WwY7ak87", lat: 22.3014, lng: 114.1699 },
-          { name: "星光大道", desc: "逛逛", url: "https://share.google/2vmdIRzpCDkVzruQf", lat: 22.2892, lng: 114.1715 },
-          { name: "尖沙咀鐘樓", desc: "地標", url: "https://share.google/hTNGpBNjfOGwk7pBB", lat: 22.2939, lng: 114.1710 },
-          { name: "天星碼頭", desc: "搭船", url: "https://share.google/J4R8eQNgS2g2lgH2i", lat: 22.2940, lng: 114.1686 },
-          { name: "維多利亞港", desc: "坐船經過", url: "" }
+          { name: "蓮香樓", desc: "下午茶點心", url: "https://share.google/wDZJdZxrz3P1fg2zb", lat: 22.2875, lng: 114.1512 },
+          { name: "中環摩天輪", desc: "拍照", url: "https://share.google/kJrZExUuAvi9z0FvV", lat: 22.2879, lng: 114.1549 },
+          { name: "中環街市", desc: "逛逛", url: "https://share.google/GQgTSkWgCcqGntQ2M", lat: 22.2827, lng: 114.1547 },
+          { name: "半山扶梯", desc: "搭扶梯", url: "", lat: 22.2825, lng: 114.1518 },
+          { name: "Bakehouse", desc: "買伴手禮", url: "https://bobbytravel.tw/bakehouse/", lat: 22.2808, lng: 114.1527 }
         ],
-        note: "<span class='meal-tag'>下午茶</span><a href='https://www.hashtag-b.com/pages/contact-us' target='_blank'>Hashtag B 蛋塔</a>　<span class='meal-tag'>晚餐</span><a href='https://share.google/zNeadf2wUfntFD6sA' target='_blank'>華嫂冰室</a><br>＊富貴雪糕是流動餐車，可看有沒有<br>＊<a href='https://www.bigfang.tw/blog/post/starferry-hk' target='_blank'>天星小輪</a>票價：上層 $5.0 / 下層 $4.0"
+        note: "<span class='meal-tag'>下午茶</span><a href='https://share.google/wDZJdZxrz3P1fg2zb' target='_blank'>蓮香樓</a>"
       },
       {
-        time: "19:30",
-        act: "坐船抵達中環碼頭，太平山頂搭纜車",
-        note: "＊從中環碼頭到太平山搭公車 <b>22S</b>（至紅棉路；香港壁球中心外）<br>＊太平山頂纜車於 <b>中環花園道山頂纜車總站</b> 搭車"
+        time: "17:00",
+        act: "去機場",
+        note: "step① 叮叮車：機利文街站 → 搭叮叮車（往西）→ 文華里站<br>step② 巴士：林士街; 干諾道中站 → <b>城巴 A11</b>（往機場）→ 機場（1 號客運大樓）<br>＊城巴 A11：港幣 $41.9"
+      },
+      {
+        time: "18:00",
+        act: "抵達香港機場",
+        note: "<b>20:10 飛機起飛</b>"
+      },
+      {
+        time: "22:10",
+        act: "抵達桃園機場（桃機香港都是一航）",
+        note: "和爸媽說～我回來啦～"
       }
     ]
-  },
-  { day: 3, date: "7/1（三）", status: "soon", title: "", route: "", items: [] },
-  { day: 4, date: "7/2（四）", status: "soon", title: "", route: "", items: [] }
+  }
 ];
 
 const RESTAURANTS = [
@@ -177,7 +314,7 @@ const RESTAURANTS = [
     hours: "無固定營業時間",
     review: "No.1 香滑軟雪糕（香草口味）",
     book: "現場排隊",
-    other: "流動餐車（外帶）"
+    other: "流動餐車（外帶）⚠️ 近期爆出大腸菌群超標，請斟酌是否食用"
   },
   {
     name: "% ARABICA", cap: "yes",
@@ -218,6 +355,54 @@ const RESTAURANTS = [
     review: "網友推：燒鵝下庄、化皮乳豬、肥燶叉燒、太子成撈麵、甘牌燒鵝瀨粉。",
     book: "+852 2520 1110　不接受預約，現場抽號碼牌（熱門時段排 1 小時很正常）",
     other: "價格高、單點貴；午市套餐便宜但份量小；建議開門前、下午三四點或外帶；多為 2 人座。"
+  },
+  {
+    name: "赤柱中泰美食餐廳", cap: "yes",
+    addr: "🚌 城巴 260 / 6（淺水灣沿線）→ 海灣園; 赤柱村道站，步行約 3–5 分鐘\n香港赤柱赤柱大街 52–56 號友誠樓",
+    hours: "週一至六 07:00–17:30\n週日休息",
+    review: "網友推：招牌泰式燒豬頸肉飯、當歸杞子清燉牛尾湯飯、芝士牛肉漢堡包、特色西多士（開心果 / 咖啡榛子口味）",
+    book: "+852 2813 7998　可用 WhatsApp 詢問訂位",
+    other: "CP 值高、份量足！"
+  },
+  {
+    name: "Caffè Parabolica", cap: "yes",
+    addr: "🚌 城巴 260 / 6 / 6X 或綠色小巴 40 / 40X → 淺水灣海灘站\n淺水灣淺水灣道 109 號地下 102–103 號",
+    hours: "星期一至日 09:00–17:00",
+    review: "網友推：Matcha Latte、Cloudy Latte、The English Muffin、Crabmeat Toast",
+    book: "<a href='https://www.caffeparabolica.com/' target='_blank'>官方預約網站</a>　⚠️ 人多請提前（最好兩週前）預約！",
+    other: "漂釀歐風早午餐咖啡廳；10% 服務費"
+  },
+  {
+    name: "炯記燒味（尖沙咀）", cap: "yes",
+    addr: "🚇 尖沙咀 / 尖東站（A1 出口 3 分鐘）\n尖沙咀樂道 19 號安順大廈地下 A 號舖",
+    hours: "星期一至日 11:30–21:30",
+    review: "網友推：鵝油撈麵、煙燻燒鵝、叉燒；沾酸梅醬必試。",
+    book: "+852 2215 0268　不能訂位，需現場候位",
+    other: "香港小眾燒臘口袋名單（在地人推薦）；高 CP 值"
+  },
+  {
+    name: "通達食店", cap: "yes",
+    addr: "🚇 油麻地站（A2 出口 1 分鐘）\n油麻地碧街 48 號地舖",
+    hours: "星期一至日 07:00–21:00",
+    review: "魚蛋兩種口味：咖哩魚蛋（不辣）、麻辣魚蛋（辣）",
+    book: "不接受訂位，需現場候位",
+    other: "必吃港式麻辣魚蛋與燒賣；禁帶外食飲料，內用低消港幣 $22；只收現金"
+  },
+  {
+    name: "沖繩漁民食堂", cap: "yes",
+    addr: "🚇 油麻地站（C 出口 5 分鐘）\n香港油麻地新填地街 151 號地下 E 舖",
+    hours: "週一至六 11:30–21:30\n週日休息",
+    review: "網友推烏冬和丼飯：日式照燒牛開丼、招牌卡邦尼烏冬系列、蜜糖照燒雞扒烏冬",
+    book: "+852 5604 6046　猜應該需現場候位",
+    other: "高 CP 值日式料理；可現金、八達通；支付寶付款人民幣港幣 1:1"
+  },
+  {
+    name: "新興食家", cap: "yes",
+    addr: "🚇 堅尼地城站（B 出口 3 分鐘）\n香港堅尼地城士美菲路美暉大廈地下 8 號鋪",
+    hours: "星期一至日 03:00–16:00",
+    review: "網友推：皇牌流沙包（全城最強爆漿奶黃）、咖哩金錢肚、蝦餃皇、蟹膏燒賣皇、蠔皇鮮竹卷、炸鮮奶",
+    book: "+852 2816 0616　不接受訂位，需現場候位",
+    other: "傳統港式早茶、最有名的深夜食堂（陳奕迅、林俊傑同款）；店員服務態度有兇但食物好吃"
   },
   {
     name: "維記 cafe", cap: "?",
