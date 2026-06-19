@@ -998,6 +998,10 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
   box-shadow: var(--shadow);
   margin-bottom: 14px;
 }
+
+@media (max-width: 560px) {
+  #map { height: 240px; }
+}
 .map-legend {
   display: flex;
   gap: 20px;
