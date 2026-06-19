@@ -854,6 +854,112 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
   .split-modal-actions .split-modal-cancel { width: 100%; text-align: center; }
 }
 
+/* ===== 倒數計時器 ===== */
+.countdown-section {
+  background: var(--navy);
+  border-radius: 10px;
+  padding: 1.5rem 1rem 1.25rem;
+  text-align: center;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.countdown-heading {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 0.7rem;
+  text-transform: uppercase;
+}
+.countdown-units {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 0.4rem;
+  margin-bottom: 0.7rem;
+}
+.cdown-unit { text-align: center; }
+.cdown-num {
+  display: block;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--yellow);
+  line-height: 1;
+}
+.cdown-unit small {
+  display: block;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.6);
+  margin-top: 3px;
+  letter-spacing: 0.05em;
+}
+.cdown-sep {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: var(--red);
+  line-height: 1.05;
+  padding-bottom: 0.2rem;
+}
+.countdown-footer {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.5);
+}
+
+/* ===== 天氣預報 ===== */
+.weather-section {
+  border: 2.5px solid var(--navy);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.weather-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 0.55rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.weather-title { font-weight: 700; font-size: 0.9rem; }
+.weather-loc   { font-size: 0.72rem; opacity: 0.6; }
+.weather-body  { padding: 0.75rem; background: var(--cream); overflow-x: auto; }
+.weather-cards {
+  display: flex;
+  gap: 0.55rem;
+  min-width: max-content;
+}
+.weather-card {
+  flex: 0 0 70px;
+  background: #fff;
+  border: 1.5px solid #d8cdb8;
+  border-radius: 8px;
+  padding: 0.5rem 0.3rem;
+  text-align: center;
+  font-family: 'Noto Sans TC', sans-serif;
+  transition: transform 0.15s;
+}
+.weather-card:hover { transform: translateY(-2px); }
+.weather-card.today    { border-color: var(--red); background: #fff5f5; }
+.weather-card.trip-day { border-color: var(--navy); background: #eef2ff; }
+.wc-day  { font-size: 0.62rem; color: #888; margin-bottom: 1px; }
+.wc-date { font-size: 0.68rem; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.wc-icon { font-size: 1.75rem; line-height: 1; margin-bottom: 4px; }
+.wc-temp { font-size: 0.62rem; }
+.wc-temp .hi { color: var(--red); font-weight: 700; }
+.wc-temp .lo { color: #777; }
+.wc-rain { font-size: 0.58rem; color: #4a90c4; margin-top: 3px; }
+.weather-loading { font-size: 0.82rem; color: #888; padding: 0.75rem 0.25rem; }
+.weather-error   { font-size: 0.78rem; color: var(--red); padding: 0.75rem 0.25rem; }
+
+@media (max-width: 560px) {
+  .cdown-num { font-size: 2.25rem; }
+  .cdown-sep { font-size: 1.9rem; }
+  .countdown-section { padding: 1.2rem 0.75rem 1rem; }
+}
+
 /* ===== Footer ===== */
 .site-footer {
   background: var(--navy); color: var(--cream);

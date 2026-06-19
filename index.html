@@ -26,6 +26,34 @@
   </nav>
 
   <main>
+    <!-- 倒數計時器 -->
+    <div class="countdown-section" id="countdownSection">
+      <div class="countdown-heading" id="cdHeading">距離出發還有</div>
+      <div class="countdown-units" id="cdUnits">
+        <div class="cdown-unit"><span class="cdown-num" id="cd-d">--</span><small>天</small></div>
+        <div class="cdown-sep">:</div>
+        <div class="cdown-unit"><span class="cdown-num" id="cd-h">--</span><small>時</small></div>
+        <div class="cdown-sep">:</div>
+        <div class="cdown-unit"><span class="cdown-num" id="cd-m">--</span><small>分</small></div>
+        <div class="cdown-sep">:</div>
+        <div class="cdown-unit"><span class="cdown-num" id="cd-s">--</span><small>秒</small></div>
+      </div>
+      <div class="countdown-footer" id="cdFooter">✈️ 2026年6月29日（一）出發・香港四天三夜</div>
+    </div>
+
+    <!-- 香港天氣預報 -->
+    <div class="weather-section">
+      <div class="weather-header">
+        <span class="weather-title">🌤 香港天氣預報</span>
+        <span class="weather-loc">旺角・尖沙咀一帶</span>
+      </div>
+      <div class="weather-body">
+        <div class="weather-cards" id="weatherCards">
+          <span class="weather-loading">天氣載入中…</span>
+        </div>
+      </div>
+    </div>
+
     <h2 class="section-title">行程表 Itinerary <a href="https://www.notion.so/58393f0fdf124d2f9c194d2466a15866" target="_blank" class="sheet-link">🧳 攜帶清單</a></h2>
     <p class="section-desc">點上方標籤切換每日行程。📍 為地圖連結，點餐廳名稱可看詳細資訊。</p>
 
@@ -41,5 +69,86 @@
   <script src="assets/data.js"></script>
   <script src="assets/app.js"></script>
   <script src="assets/player.js"></script>
+  <script>
+  /* ── 倒數計時器 ── */
+  (function () {
+    const DEPART = new Date('2026-06-29T00:00:00+08:00');
+    const RETURN = new Date('2026-07-02T23:59:59+08:00');
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tick() {
+      const now = new Date();
+      const heading = document.getElementById('cdHeading');
+      const units   = document.getElementById('cdUnits');
+      const footer  = document.getElementById('cdFooter');
+      if (now > RETURN) {
+        if (heading) heading.textContent = '旅程圓滿結束 🇭🇰 回憶滿滿';
+        if (units)   units.innerHTML = '';
+        if (footer)  footer.style.display = 'none';
+        return;
+      }
+      const target = now >= DEPART ? RETURN : DEPART;
+      if (now >= DEPART && heading) heading.textContent = '旅程進行中 ✈️ 距回台還有';
+      const diff = target - now;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-d').textContent = pad(d);
+      document.getElementById('cd-h').textContent = pad(h);
+      document.getElementById('cd-m').textContent = pad(m);
+      document.getElementById('cd-s').textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  /* ── 天氣預報（Open-Meteo，免費無需 API Key）── */
+  (function () {
+    const WMO = {
+      0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
+      45:'🌫️', 48:'🌫️',
+      51:'🌦️', 53:'🌦️', 55:'🌧️',
+      61:'🌧️', 63:'🌧️', 65:'🌧️',
+      71:'❄️', 73:'❄️', 75:'❄️', 77:'🌨️',
+      80:'🌦️', 81:'🌦️', 82:'⛈️',
+      85:'❄️', 86:'❄️', 95:'⛈️', 96:'⛈️', 99:'⛈️'
+    };
+    const DAYS = ['日','一','二','三','四','五','六'];
+    const TRIP = new Set(['2026-06-29','2026-06-30','2026-07-01','2026-07-02']);
+    const url  = 'https://api.open-meteo.com/v1/forecast'
+      + '?latitude=22.3193&longitude=114.1694'
+      + '&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max'
+      + '&timezone=Asia%2FHong_Kong&forecast_days=7';
+
+    fetch(url).then(r => r.json()).then(data => {
+      const { time, weathercode, temperature_2m_max, temperature_2m_min, precipitation_probability_max } = data.daily;
+      const todayStr = new Date().toLocaleDateString('sv', { timeZone: 'Asia/Hong_Kong' });
+      const container = document.getElementById('weatherCards');
+      container.innerHTML = '';
+      time.forEach((dateStr, i) => {
+        const d        = new Date(dateStr + 'T12:00:00+08:00');
+        const dayLabel = DAYS[d.getDay()];
+        const dateLabel = `${d.getMonth() + 1}/${d.getDate()}`;
+        const isToday  = dateStr === todayStr;
+        const isTrip   = TRIP.has(dateStr);
+        const icon     = WMO[weathercode[i]] || '🌡️';
+        const hi       = Math.round(temperature_2m_max[i]);
+        const lo       = Math.round(temperature_2m_min[i]);
+        const rain     = precipitation_probability_max[i];
+        const card     = document.createElement('div');
+        card.className = 'weather-card' + (isToday ? ' today' : '') + (isTrip ? ' trip-day' : '');
+        card.innerHTML = `
+          <div class="wc-day">${isToday ? '今天' : '週' + dayLabel}${isTrip ? '✈️' : ''}</div>
+          <div class="wc-date">${dateLabel}</div>
+          <div class="wc-icon">${icon}</div>
+          <div class="wc-temp"><span class="hi">${hi}°</span>/<span class="lo">${lo}°</span></div>
+          <div class="wc-rain">💧${rain}%</div>`;
+        container.appendChild(card);
+      });
+    }).catch(() => {
+      document.getElementById('weatherCards').innerHTML = '<span class="weather-error">天氣載入失敗，請確認網路連線</span>';
+    });
+  })();
+  </script>
 </body>
 </html>
