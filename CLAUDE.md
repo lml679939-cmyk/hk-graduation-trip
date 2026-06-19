@@ -124,7 +124,8 @@ const DAY_COLORS = {
 ```js
 {
   name: "餐廳名",
-  cap: "yes",   // "yes"=可容13人⭕ / "no"=不行❌ / "?"=待確認
+  cap: "yes",      // "yes"=可容13人⭕ / "no"=不行❌ / "?"=待確認
+  days: [1, 2],    // 哪幾天會去附近，可以是多天，用於 food.html 天數篩選
   addr: "🚇 地鐵站\n地址",
   hours: "星期一至日 HH:MM–HH:MM",
   review: "評論 / 推薦品項",
@@ -178,6 +179,9 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 | **實時匯率** | 登入後從 `fawazahmed0/currency-api`（jsDelivr CDN）抓取當日 HKD→TWD，失敗降回預設 4.2 |
 | Notion 換算表連結 | 匯率列旁「📒 換算表」連結（Notion） |
 | 記帳人顯示名稱 | `EMAIL_TO_NAME` 對照表，Google 帳號顯示名自動轉換為中文姓名 |
+| **天氣預報（index.html）** | Open-Meteo API（免費無需 key），旺角座標，顯示 7 天預報卡片；旅行日標示 ✈️；今天高亮 |
+| **餐廳天數篩選** | `food.html` 新增 Day 1–4 篩選列；`data.js` 每家餐廳加 `days: [...]`；人數 × 天數 AND 組合篩選 |
+| **手機時間欄修正** | `.t-time` 改 `text-align: left`、欄寬 100px，修正長時間範圍在手機向左溢出被裁切的問題 |
 
 ### 🔲 尚未完成 / 規劃中
 

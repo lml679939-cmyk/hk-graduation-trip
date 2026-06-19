@@ -26,21 +26,6 @@
   </nav>
 
   <main>
-    <!-- 倒數計時器 -->
-    <div class="countdown-section" id="countdownSection">
-      <div class="countdown-heading" id="cdHeading">距離出發還有</div>
-      <div class="countdown-units" id="cdUnits">
-        <div class="cdown-unit"><span class="cdown-num" id="cd-d">--</span><small>天</small></div>
-        <div class="cdown-sep">:</div>
-        <div class="cdown-unit"><span class="cdown-num" id="cd-h">--</span><small>時</small></div>
-        <div class="cdown-sep">:</div>
-        <div class="cdown-unit"><span class="cdown-num" id="cd-m">--</span><small>分</small></div>
-        <div class="cdown-sep">:</div>
-        <div class="cdown-unit"><span class="cdown-num" id="cd-s">--</span><small>秒</small></div>
-      </div>
-      <div class="countdown-footer" id="cdFooter">✈️ 2026年6月29日（一）出發・香港四天三夜</div>
-    </div>
-
     <!-- 香港天氣預報 -->
     <div class="weather-section">
       <div class="weather-header">
@@ -70,38 +55,6 @@
   <script src="assets/app.js"></script>
   <script src="assets/player.js"></script>
   <script>
-  /* ── 倒數計時器 ── */
-  (function () {
-    const DEPART = new Date('2026-06-29T00:00:00+08:00');
-    const RETURN = new Date('2026-07-02T23:59:59+08:00');
-    function pad(n) { return String(n).padStart(2, '0'); }
-    function tick() {
-      const now = new Date();
-      const heading = document.getElementById('cdHeading');
-      const units   = document.getElementById('cdUnits');
-      const footer  = document.getElementById('cdFooter');
-      if (now > RETURN) {
-        if (heading) heading.textContent = '旅程圓滿結束 🇭🇰 回憶滿滿';
-        if (units)   units.innerHTML = '';
-        if (footer)  footer.style.display = 'none';
-        return;
-      }
-      const target = now >= DEPART ? RETURN : DEPART;
-      if (now >= DEPART && heading) heading.textContent = '旅程進行中 ✈️ 距回台還有';
-      const diff = target - now;
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      document.getElementById('cd-d').textContent = pad(d);
-      document.getElementById('cd-h').textContent = pad(h);
-      document.getElementById('cd-m').textContent = pad(m);
-      document.getElementById('cd-s').textContent = pad(s);
-    }
-    tick();
-    setInterval(tick, 1000);
-  })();
-
   /* ── 天氣預報（Open-Meteo，免費無需 API Key）── */
   (function () {
     const WMO = {

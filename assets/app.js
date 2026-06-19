@@ -1,4 +1,4 @@
-/* ====== 行程頁渲染 ====== */
+﻿/* ====== 行程頁渲染 ====== */
 function renderItinerary() {
   const tabsEl = document.getElementById("dayTabs");
   const panelsEl = document.getElementById("dayPanels");
@@ -95,7 +95,7 @@ function row(k, v) {
 
 function foodCardHTML(r) {
   return `
-    <article class="food-card" data-cap="${r.cap}">
+    <article class="food-card" data-cap="${r.cap}" data-days="${(r.days || []).join(',')}">
       <div class="food-card-head">
         <h3>${r.name}</h3>
         ${capBadge(r.cap)}
@@ -111,14 +111,33 @@ function foodCardHTML(r) {
 }
 
 function setupFilters() {
-  document.querySelectorAll(".filter-btn").forEach(btn => {
+  let activeCap = "all";
+  let activeDay = "all";
+  const cards = document.querySelectorAll(".food-card");
+
+  function applyFilters() {
+    cards.forEach(card => {
+      const capOk = activeCap === "all" || card.dataset.cap === activeCap;
+      const dayOk = activeDay === "all" || card.dataset.days.split(",").includes(activeDay);
+      card.style.display = (capOk && dayOk) ? "" : "none";
+    });
+  }
+
+  document.querySelectorAll(".cap-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".cap-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      const f = btn.dataset.filter;
-      document.querySelectorAll(".food-card").forEach(card => {
-        card.style.display = (f === "all" || card.dataset.cap === f) ? "" : "none";
-      });
+      activeCap = btn.dataset.cap;
+      applyFilters();
+    });
+  });
+
+  document.querySelectorAll(".day-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".day-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeDay = btn.dataset.day;
+      applyFilters();
     });
   });
 }

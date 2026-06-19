@@ -27,19 +27,27 @@
 
   <main>
     <h2 class="section-title">餐廳一覽 Restaurants</h2>
-    <p class="section-desc">整理自「香港行＿餐食相關」表單，免再跳去 Google Sheet 查看。</p>
 
     <div class="food-controls">
-      <span class="lbl">篩選：</span>
-      <button class="filter-btn active" data-filter="all">全部</button>
-      <button class="filter-btn" data-filter="yes">可容納 13 人 ⭕</button>
-      <button class="filter-btn" data-filter="no">無法容納 13 人 ❌</button>
+      <div class="filter-row">
+        <span class="lbl">人數：</span>
+        <button class="filter-btn cap-btn active" data-cap="all">全部</button>
+        <button class="filter-btn cap-btn" data-cap="yes">可容納 13 人 ⭕</button>
+        <button class="filter-btn cap-btn" data-cap="no">無法容納 13 人 ❌</button>
+      </div>
+      <div class="filter-row">
+        <span class="lbl">天數：</span>
+        <button class="filter-btn day-btn active" data-day="all">全部</button>
+        <button class="filter-btn day-btn" data-day="1">Day 1<small>尖沙咀・旺角</small></button>
+        <button class="filter-btn day-btn" data-day="2">Day 2<small>海洋公園・灣仔</small></button>
+        <button class="filter-btn day-btn" data-day="3">Day 3<small>旺角・淺水灣・赤柱</small></button>
+        <button class="filter-btn day-btn" data-day="4">Day 4<small>堅尼地城・中環</small></button>
+      </div>
     </div>
 
     <div class="food-grid" id="foodGrid"></div>
 
     <h2 class="section-title" style="margin-top:50px">飲食禁忌速查 Survey</h2>
-    <p class="section-desc">13 人吃辣狀況與不吃的食物，訂餐廳前先確認一下。</p>
 
     <div class="survey-wrap">
       <table class="survey">

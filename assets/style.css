@@ -299,16 +299,34 @@ main {
 
 /* ===== Food cards ===== */
 .food-controls {
-  display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
 }
-.food-controls .lbl { font-weight: 900; color: var(--navy); }
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.filter-row .lbl { font-weight: 900; color: var(--navy); min-width: 36px; }
 .filter-btn {
   border: 3px solid var(--navy);
   background: #fff; color: var(--navy);
   font-weight: 900; font-size: 13px;
-  padding: 7px 14px; cursor: pointer; font-family: inherit;
+  padding: 6px 14px; cursor: pointer; font-family: inherit;
+  line-height: 1.3;
+}
+.filter-btn small {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  opacity: 0.75;
+  line-height: 1.2;
 }
 .filter-btn.active { background: var(--red); color: #fff; border-color: var(--red); }
+.filter-btn.active small { opacity: 0.9; }
 
 .food-grid {
   display: grid;
