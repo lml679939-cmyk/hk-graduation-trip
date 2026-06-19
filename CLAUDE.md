@@ -174,6 +174,7 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 | 費用明細 | 按日期分組顯示，含收據縮圖（點擊放大）；Google Sheets 後台連結放在標題旁 |
 | **編輯費用** | 所有已登入成員皆可編輯任何一筆（modal 表單）；刪除仍限記帳人本人 |
 | 自動結算 | 最少轉帳筆數貪婪演算法，顯示 HKD + TWD 換算金額 |
+| **人均欄位（Sheets 後台）** | Google Sheets K 欄自動計算人均(HKD) = 金額 ÷ 分攤人數；新增 / 編輯費用時皆自動寫入 |
 | **實時匯率** | 登入後從 `fawazahmed0/currency-api`（jsDelivr CDN）抓取當日 HKD→TWD，失敗降回預設 4.2 |
 | Notion 換算表連結 | 匯率列旁「📒 換算表」連結（Notion） |
 | 記帳人顯示名稱 | `EMAIL_TO_NAME` 對照表，Google 帳號顯示名自動轉換為中文姓名 |
@@ -296,6 +297,7 @@ const EMAIL_TO_NAME = { 'lml679939@gmail.com': '葉祐誠', … };
 | H | 記帳人姓名 |
 | I | 記帳人 Email |
 | J | 收據圖片（base64 JPEG，最大 150px，可空白） |
+| K | 人均(HKD)（= 金額 ÷ 分攤成員數，四捨五入到小數第二位） |
 
 Spreadsheet ID：`1zBVlMaw7WymQmyQx8GW2dsYZl4ds4sjfSaaTtZJ-X1Q`
 

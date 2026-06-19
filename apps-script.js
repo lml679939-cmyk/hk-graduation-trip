@@ -67,8 +67,8 @@ function getSheet() {
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
     sheet.appendRow(['ID', '時間戳記', '日期', '費用說明', '金額(HKD)',
-                     '付款人(JSON)', '分攤成員(JSON)', '記帳人', '記帳人Email', '收據圖片']);
-    sheet.getRange(1, 1, 1, 10).setFontWeight('bold');
+                     '付款人(JSON)', '分攤成員(JSON)', '記帳人', '記帳人Email', '收據圖片', '人均(HKD)']);
+    sheet.getRange(1, 1, 1, 11).setFontWeight('bold');
     sheet.setFrozenRows(1);
   }
   return sheet;
@@ -139,7 +139,8 @@ function listExpenses() {
         participants:     JSON.parse(r[6] || '[]'),
         submittedBy:      r[7],
         submittedByEmail: r[8],
-        receiptData:      r[9] || ''
+        receiptData:      r[9] || '',
+        perPerson:        parseFloat(r[10]) || 0
       };
     });
   return json({ ok: true, expenses });
@@ -151,7 +152,11 @@ function addExpense(exp) {
   if (!exp.id || !exp.desc || !exp.amount || !exp.paidBy) {
     return json({ ok: false, error: '資料不完整' });
   }
-  const paidByArr = Array.isArray(exp.paidBy) ? exp.paidBy : [exp.paidBy];
+  const paidByArr    = Array.isArray(exp.paidBy) ? exp.paidBy : [exp.paidBy];
+  const participants = exp.participants || [];
+  const perPerson    = participants.length > 0
+    ? Math.round((exp.amount / participants.length) * 100) / 100
+    : 0;
   getSheet().appendRow([
     exp.id,
     new Date(),
@@ -159,10 +164,11 @@ function addExpense(exp) {
     exp.desc,
     exp.amount,
     JSON.stringify(paidByArr),
-    JSON.stringify(exp.participants || []),
+    JSON.stringify(participants),
     exp.submittedBy      || '',
     exp.submittedByEmail || '',
-    exp.receiptData      || ''
+    exp.receiptData      || '',
+    perPerson
   ]);
   return json({ ok: true });
 }
@@ -191,13 +197,18 @@ function updateExpense(exp, email) {
   const rows  = sheet.getDataRange().getValues();
   for (let i = 1; i < rows.length; i++) {
     if (String(rows[i][0]) === String(exp.id)) {
-      const paidByArr = Array.isArray(exp.paidBy) ? exp.paidBy : [exp.paidBy];
+      const paidByArr    = Array.isArray(exp.paidBy) ? exp.paidBy : [exp.paidBy];
+      const participants = exp.participants || [];
+      const perPerson    = participants.length > 0
+        ? Math.round((exp.amount / participants.length) * 100) / 100
+        : 0;
       sheet.getRange(i + 1, 3).setValue(exp.date        || '');
       sheet.getRange(i + 1, 4).setValue(exp.desc);
       sheet.getRange(i + 1, 5).setValue(exp.amount);
       sheet.getRange(i + 1, 6).setValue(JSON.stringify(paidByArr));
-      sheet.getRange(i + 1, 7).setValue(JSON.stringify(exp.participants || []));
+      sheet.getRange(i + 1, 7).setValue(JSON.stringify(participants));
       sheet.getRange(i + 1, 10).setValue(exp.receiptData || '');
+      sheet.getRange(i + 1, 11).setValue(perPerson);
       return json({ ok: true });
     }
   }
