@@ -94,6 +94,7 @@ function showApp() {
   document.getElementById('appSection').style.display   = '';
   renderUserBar();
   initRateBar();
+  startRateRefresh();
   initForm();
   initEditModal();
   loadExpenses();
@@ -118,15 +119,29 @@ function signOut() {
 
 /* ── 匯率 ── */
 
+const RATE_CACHE_KEY = 'hkRate_v1';
+const RATE_TTL_MS    = 6 * 60 * 60 * 1000; // 6 小時
+
 async function initRateBar() {
   const el = document.getElementById('rateDisplay');
   el.textContent = '載入中…';
+
+  const cached = (() => {
+    try { return JSON.parse(localStorage.getItem(RATE_CACHE_KEY)); } catch { return null; }
+  })();
+  if (cached && Date.now() - cached.ts < RATE_TTL_MS) {
+    rate = cached.rate;
+    el.innerHTML = `${rate} <small class="rate-source">（實時・${cached.date}）</small>`;
+    return;
+  }
+
   try {
     const res  = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/hkd.min.json');
     const data = await res.json();
     const live = data.hkd?.twd;
     if (live && live > 0) {
       rate = Math.round(live * 100) / 100;
+      localStorage.setItem(RATE_CACHE_KEY, JSON.stringify({ rate, date: data.date, ts: Date.now() }));
       el.innerHTML = `${rate} <small class="rate-source">（實時・${data.date}）</small>`;
     } else {
       throw new Error('無匯率資料');
@@ -135,6 +150,13 @@ async function initRateBar() {
     rate = SPLIT_CONFIG.DEFAULT_RATE;
     el.innerHTML = `${rate} <small class="rate-source">（預設值）</small>`;
   }
+}
+
+function startRateRefresh() {
+  setInterval(async () => {
+    localStorage.removeItem(RATE_CACHE_KEY);
+    await initRateBar();
+  }, RATE_TTL_MS);
 }
 
 /* ── 新增費用表單 ── */
