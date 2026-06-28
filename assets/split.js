@@ -144,16 +144,27 @@ async function initRateBar(force = false) {
   }
 
   try {
-    const res  = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/hkd.min.json', force ? { cache: 'no-store' } : {});
-    const data = await res.json();
-    const live = data.hkd?.twd;
-    if (live && live > 0) {
-      rate = Math.round(live * 100) / 100;
-      localStorage.setItem(RATE_CACHE_KEY, JSON.stringify({ rate, date: data.date, ts: Date.now() }));
-      el.innerHTML = `${rate} <small class="rate-source">（實時・${data.date}）</small>`;
-    } else {
-      throw new Error('無匯率資料');
+    const today = new Date().toISOString().slice(0, 10);
+    const fetchOpts = force ? { cache: 'no-store' } : {};
+    const urls = [
+      `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@${today}/v1/currencies/hkd.min.json`,
+      'https://latest.currency-api.pages.dev/v1/currencies/hkd.min.json',
+      'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/hkd.min.json',
+    ];
+    let data = null;
+    for (const url of urls) {
+      try {
+        const res = await fetch(url, fetchOpts);
+        if (!res.ok) continue;
+        const json = await res.json();
+        if (json.hkd?.twd > 0) { data = json; break; }
+      } catch { /* 試下一個 */ }
     }
+    if (!data) throw new Error('無匯率資料');
+    const live = data.hkd.twd;
+    rate = Math.round(live * 100) / 100;
+    localStorage.setItem(RATE_CACHE_KEY, JSON.stringify({ rate, date: data.date, ts: Date.now() }));
+    el.innerHTML = `${rate} <small class="rate-source">（實時・${data.date}）</small>`;
   } catch {
     rate = SPLIT_CONFIG.DEFAULT_RATE;
     el.innerHTML = `${rate} <small class="rate-source">（預設值）</small>`;
