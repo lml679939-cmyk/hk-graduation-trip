@@ -1,6 +1,6 @@
 # 香港畢業旅行網站・專案交接文件
 
-> 給下一個 Claude session 或其他 AI agent：這份文件涵蓋所有你需要繼續這個專案的資訊。
+> 給下一個 Codex session 或其他 AI agent：這份文件涵蓋所有你需要繼續這個專案的資訊。
 
 ---
 
@@ -22,13 +22,12 @@
 
 ```
 /
-├── index.html          行程表頁（Day 1–4，全部完整）
+├── index.html          行程表頁（Day 1–4，Day 3/4 目前顯示「規劃中」）
 ├── food.html           餐食資訊頁（餐廳卡片 + 13 人飲食禁忌表）
 ├── map.html            景點地圖頁（Leaflet.js + OpenStreetMap + 景點清單 + 換港幣篩選）
 ├── split.html          旅費分帳頁（Google 登入 + Google Sheets 同步）
 ├── apps-script.js      Google Apps Script 後端原始碼備份（已部署，勿直接執行）
-├── CLAUDE.md           本文件（交接 / AI agent 說明）
-├── AGENTS.md           Codex 相容版交接文件（內容與 CLAUDE.md 相似）
+├── AGENTS.md           本文件（交接 / AI agent 說明）
 ├── assets/
 │   ├── style.css       全域樣式（港式復古海報風設計系統）
 │   ├── data.js         行程資料（ITINERARY）+ 餐廳資料（RESTAURANTS）+ 飲食調查（SURVEY）
@@ -36,15 +35,14 @@
 │   ├── map.js          景點地圖渲染邏輯（Leaflet、標記、Day 篩選、景點清單、換港幣篩選）
 │   ├── split.js        旅費分帳邏輯（表單、Google API、最少轉帳結算、實時匯率）
 │   └── player.js       浮動音樂播放器（港樂點唱機、跨頁狀態保存）
-├── .claude/
+├── .Codex/
 │   └── launch.json     preview server 設定（port 5500）
-└── 相關旅行內容/        原始資料目錄
-    ├── 香港去哪裡.md    原始行程規劃（Google Docs 匯出，極大檔案，勿用 Read 工具直接讀）
-    └── 香港行_餐食相關.xlsx 原始餐廳資料（openpyxl 可讀）
+├── 香港去哪裡.md        原始行程規劃（Google Docs 匯出，極大檔案，勿用 Read 工具直接讀）
+└── 香港行_餐食相關.xlsx 原始餐廳資料（openpyxl 可讀）
 ```
 
-> ⚠️ `相關旅行內容/香港去哪裡.md` 約 550KB，單行超長，Read 工具會 token overflow。
-> 用 `sed -n 'Xp' "相關旅行內容/香港去哪裡.md"` 按行號讀取（Day1=line6–19, Day2=line20–29, Day3=line30–37, Day4=line38–末）。
+> ⚠️ `香港去哪裡.md` 約 550KB，單行超長，Read 工具會 token overflow。
+> 用 `sed -n 'Xp' 香港去哪裡.md` 按行號讀取（Day1=line6–19, Day2=line20–29, Day3=line30–37, Day4=line38–末）。
 
 ---
 
@@ -126,8 +124,7 @@ const DAY_COLORS = {
 ```js
 {
   name: "餐廳名",
-  cap: "yes",      // "yes"=可容13人⭕ / "no"=不行❌ / "?"=待確認
-  days: [1, 2],    // 哪幾天會去附近，可以是多天，用於 food.html 天數篩選
+  cap: "yes",   // "yes"=可容13人⭕ / "no"=不行❌ / "?"=待確認
   addr: "🚇 地鐵站\n地址",
   hours: "星期一至日 HH:MM–HH:MM",
   review: "評論 / 推薦品項",
@@ -154,15 +151,15 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 
 | 功能 | 說明 |
 |---|---|
-| 行程頁 | Day 1–4 完整時間軸（全部 status: "done"）|
-| Day tab 切換 | 點標籤切換天數 |
+| 行程頁 | Day 1、Day 2 完整時間軸；Day 3/4 預留「規劃中」 |
+| Day tab 切換 | 點標籤切換天數；Day 3/4 按鈕灰階 disabled |
 | 攜帶清單連結 | 行程頁標題旁「🧳 攜帶清單」連結（Notion） |
 | 景點地圖連結（膠囊） | 行程頁膠囊樣式，點擊開 Google Maps |
 | 景點地圖頁 | `map.html`：Leaflet.js + OpenStreetMap，Day 1 紅標、Day 2 深藍標，Day tab 篩選 |
 | 換港幣篩選 | 地圖頁「💱 換港幣」tab，顯示 6 處貼近行程路線的找換店（綠色標記） |
 | 景點行程清單 | 地圖下方按天顯示景點清單，點擊跳至地圖；「全部」時隱藏 |
-| Day 1–4 GPS 座標 | Day 1/2 共 17 個；Day 3/4 景點亦已填入 `lat`/`lng` |
-| 餐食分頁 | 21 間餐廳卡片，含所有欄位資訊 |
+| Day 1、Day 2 GPS 座標 | 共 17 個景點已填入 `lat`/`lng` |
+| 餐食分頁 | 15 間餐廳卡片，含所有欄位資訊 |
 | 餐廳訂位連結 | 金華冰廳（AutoReserve）、蓮香樓（inline.app）已加入線上訂位連結 |
 | 容納人數篩選 | 按 ⭕/❌ 篩選適合 13 人的餐廳 |
 | 飲食禁忌速查表 | 12 人的吃辣 + 禁忌食材 |
@@ -177,20 +174,16 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 | 費用明細 | 按日期分組顯示，含收據縮圖（點擊放大）；Google Sheets 後台連結放在標題旁 |
 | **編輯費用** | 所有已登入成員皆可編輯任何一筆（modal 表單）；刪除仍限記帳人本人 |
 | 自動結算 | 最少轉帳筆數貪婪演算法，顯示 HKD + TWD 換算金額 |
-| **人均欄位（Sheets 後台）** | Google Sheets K 欄自動計算人均(HKD) = 金額 ÷ 分攤人數；新增 / 編輯費用時皆自動寫入 |
 | **實時匯率** | 登入後從 `fawazahmed0/currency-api`（jsDelivr CDN）抓取當日 HKD→TWD，失敗降回預設 4.2 |
 | Notion 換算表連結 | 匯率列旁「📒 換算表」連結（Notion） |
 | 記帳人顯示名稱 | `EMAIL_TO_NAME` 對照表，Google 帳號顯示名自動轉換為中文姓名 |
-| **天氣預報（index.html）** | Open-Meteo API（免費無需 key），旺角座標，顯示 7 天預報卡片；旅行日標示 ✈️；今天高亮 |
-| **餐廳天數篩選** | `food.html` 新增 Day 1–4 篩選列；`data.js` 每家餐廳加 `days: [...]`；人數 × 天數 AND 組合篩選 |
-| **手機時間欄修正** | `.t-time` 改 `text-align: left`、欄寬 100px，修正長時間範圍在手機向左溢出被裁切的問題 |
-| **Day 3 行程** | 旺角 → 淺水灣 → 赤柱 → 尖沙咀；含 GPS 座標；map.js DAY_COLORS 已設定橘色 |
-| **Day 4 行程** | 堅尼地城 → 中環 → 機場；含 GPS 座標；map.js DAY_COLORS 已設定綠色 |
 
 ### 🔲 尚未完成 / 規劃中
 
 | 功能 | 優先度 | 說明 |
 |---|---|---|
+| Day 3 行程 | ⭐⭐⭐ | 格式見上方；記得同步補 GPS 座標 + map.js DAY_COLORS |
+| Day 4 行程 | ⭐⭐⭐ | 同上 |
 | 第 13 位成員 | ⭐⭐ | MEMBERS 陣列目前 12 人，待確認姓名 + Gmail 後補入 `assets/split.js` 的 MEMBERS、ALLOWED_EMAILS、EMAIL_TO_NAME，以及 `apps-script.js` 的 ALLOWED_EMAILS（需重新部署） |
 | 餐廳卡片照片 | ⭐ | 待用戶提供照片 |
 
@@ -205,42 +198,27 @@ YouTube 影片 ID = `https://www.youtube.com/watch?v=` 後面那段（11 個字�
 - **Popup**：景點名 + 描述 + Google Maps 連結
 - **篩選**：「全部 / Day 1 / Day 2 / 💱換港幣」tab，Day tab 自動從 ITINERARY 生成
 
-### 已填入座標的景點（Day 1–4）
+### Day 1、Day 2 已填入座標的景點
 
 | Day | 景點 | lat | lng |
 |---|---|---|---|
-| 1 | Hashtag B 蛋塔 | 22.2973 | 114.1739 |
-| 1 | 九龍公園 | 22.3014 | 114.1699 |
-| 1 | 華嫂冰室 | 22.2975 | 114.1763 |
-| 1 | 星光大道 | 22.2892 | 114.1715 |
-| 1 | 尖沙咀鐘樓 | 22.2939 | 114.1710 |
-| 1 | 天星碼頭 | 22.2940 | 114.1686 |
-| 2 | 海洋公園 | 22.2478 | 114.1748 |
-| 2 | 甘牌燒鵝 | 22.2771 | 114.1740 |
-| 2 | 太平山頂 | 22.2709 | 114.1483 |
-| 3 | 彌敦街 | 22.3193 | 114.1694 |
-| 3 | 朗豪坊 | 22.3185 | 114.1686 |
-| 3 | 星際城市 | 22.3156 | 114.1677 |
-| 3 | 女人街 | 22.3191 | 114.1704 |
-| 3 | 波鞋街 | 22.3190 | 114.1693 |
-| 3 | 花園街 | 22.3253 | 114.1723 |
-| 3 | 旺角天橋 | 22.3222 | 114.1699 |
-| 3 | 金魚街 | 22.3232 | 114.1711 |
-| 3 | Caffè Parabolica | 22.2380 | 114.1955 |
-| 3 | 淺水灣泳灘 | 22.2362 | 114.1971 |
-| 3 | 淺水灣影灣園 | 22.2375 | 114.1949 |
-| 3 | 赤柱大街 | 22.2186 | 114.2122 |
-| 3 | 炯記燒味 | 22.2985 | 114.1742 |
-| 4 | 堅尼地城籃球場 | 22.2822 | 114.1281 |
-| 4 | Winstons Coffee | 22.2830 | 114.1285 |
-| 4 | 叮叮老香港辦館 | 22.2831 | 114.1283 |
-| 4 | % Arabica | 22.2837 | 114.1267 |
-| 4 | 海濱公園 | 22.2820 | 114.1261 |
-| 4 | 蓮香樓 | 22.2875 | 114.1512 |
-| 4 | 中環摩天輪 | 22.2879 | 114.1549 |
-| 4 | 中環街市 | 22.2827 | 114.1547 |
-| 4 | 半山扶梯 | 22.2825 | 114.1518 |
-| 4 | Bakehouse | 22.2808 | 114.1527 |
+| 1 | 彌敦街 | 22.3193 | 114.1694 |
+| 1 | 朗豪坊 | 22.3185 | 114.1686 |
+| 1 | 星際城市 | 22.3156 | 114.1677 |
+| 1 | 女人街 | 22.3191 | 114.1704 |
+| 1 | 波鞋街 | 22.3190 | 114.1693 |
+| 1 | 花園街 | 22.3253 | 114.1723 |
+| 1 | 旺角天橋 | 22.3222 | 114.1699 |
+| 1 | 金魚街 | 22.3232 | 114.1711 |
+| 2 | 堅尼地城籃球場 | 22.2822 | 114.1281 |
+| 2 | Winstons Coffee | 22.2830 | 114.1285 |
+| 2 | 叮叮老香港辦館 | 22.2831 | 114.1283 |
+| 2 | % Arabica | 22.2837 | 114.1267 |
+| 2 | 海濱公園 | 22.2820 | 114.1261 |
+| 2 | 九龍公園 | 22.3014 | 114.1699 |
+| 2 | 星光大道 | 22.2892 | 114.1715 |
+| 2 | 尖沙咀鐘樓 | 22.2939 | 114.1710 |
+| 2 | 天星碼頭 | 22.2940 | 114.1686 |
 
 ---
 
@@ -318,7 +296,6 @@ const EMAIL_TO_NAME = { 'lml679939@gmail.com': '葉祐誠', … };
 | H | 記帳人姓名 |
 | I | 記帳人 Email |
 | J | 收據圖片（base64 JPEG，最大 150px，可空白） |
-| K | 人均(HKD)（= 金額 ÷ 分攤成員數，四捨五入到小數第二位） |
 
 Spreadsheet ID：`1zBVlMaw7WymQmyQx8GW2dsYZl4ds4sjfSaaTtZJ-X1Q`
 
@@ -353,8 +330,8 @@ Spreadsheet ID：`1zBVlMaw7WymQmyQx8GW2dsYZl4ds4sjfSaaTtZJ-X1Q`
 
 | 檔案 | 說明 | 讀取方式 |
 |---|---|---|
-| `相關旅行內容/香港去哪裡.md` | Google Docs 匯出的行程表，行極長 | `sed -n '6,19p'`（Day1）/ `sed -n '20,29p'`（Day2）/ `sed -n '30,37p'`（Day3）/ `sed -n '38,68p'`（Day4）|
-| `相關旅行內容/香港行_餐食相關.xlsx` | Google Sheets 匯出，兩張工作表：餐廳資訊 + 餐食調查 | `python -c "import openpyxl…"` 或直接讀 data.js（已整理） |
+| `香港去哪裡.md` | Google Docs 匯出的行程表，68 行但每行極長 | `sed -n '6,19p'`（Day1）/ `sed -n '20,29p'`（Day2）/ `sed -n '30,37p'`（Day3）/ `sed -n '38,68p'`（Day4）|
+| `香港行_餐食相關.xlsx` | Google Sheets 匯出，兩張工作表：餐廳資訊 + 餐食調查 | `python -c "import openpyxl…"` 或直接讀 data.js（已整理） |
 
 ---
 
@@ -380,12 +357,12 @@ Spreadsheet ID：`1zBVlMaw7WymQmyQx8GW2dsYZl4ds4sjfSaaTtZJ-X1Q`
 ## 本機開發指引
 
 ```powershell
-# 啟動 preview server（.claude/launch.json 已設定）
+# 啟動 preview server（.Codex/launch.json 已設定）
 python -m http.server 5500
 # 然後開 http://localhost:5500/index.html
 ```
 
-Claude Code 裡可直接用 `preview_start`（name: "hk-trip"）啟動。
+Codex 裡可直接用 `preview_start`（name: "hk-trip"）啟動。
 
 ## 部署流程（GitHub Pages）
 
