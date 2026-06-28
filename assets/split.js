@@ -126,25 +126,25 @@ async function refreshRate() {
   localStorage.removeItem(RATE_CACHE_KEY);
   const btn = document.getElementById('rateRefreshBtn');
   if (btn) { btn.classList.add('spinning'); btn.disabled = true; }
-  await initRateBar();
+  await initRateBar(true);
   if (btn) { btn.classList.remove('spinning'); btn.disabled = false; }
 }
 
-async function initRateBar() {
+async function initRateBar(force = false) {
   const el = document.getElementById('rateDisplay');
   el.textContent = '載入中…';
 
   const cached = (() => {
     try { return JSON.parse(localStorage.getItem(RATE_CACHE_KEY)); } catch { return null; }
   })();
-  if (cached && Date.now() - cached.ts < RATE_TTL_MS) {
+  if (!force && cached && Date.now() - cached.ts < RATE_TTL_MS) {
     rate = cached.rate;
     el.innerHTML = `${rate} <small class="rate-source">（實時・${cached.date}）</small>`;
     return;
   }
 
   try {
-    const res  = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/hkd.min.json');
+    const res  = await fetch('https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/hkd.min.json', force ? { cache: 'no-store' } : {});
     const data = await res.json();
     const live = data.hkd?.twd;
     if (live && live > 0) {
