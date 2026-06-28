@@ -648,6 +648,25 @@ table.survey td.name { font-weight: 900; color: var(--navy); white-space: nowrap
 }
 .split-rate-note { font-size: 12px; font-weight: 500; color: #777; }
 .rate-source { font-size: 11px; font-weight: 400; color: #999; margin-left: 2px; }
+.rate-refresh-btn {
+  background: none;
+  border: 1.5px solid var(--navy);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--navy);
+  padding: 0;
+  flex-shrink: 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+.rate-refresh-btn:hover:not(:disabled) { color: var(--red); border-color: var(--red); }
+.rate-refresh-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.rate-refresh-btn.spinning { animation: rateSpin 0.7s linear infinite; }
+@keyframes rateSpin { to { transform: rotate(360deg); } }
 
 .split-form {
   background: #fff;

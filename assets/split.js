@@ -122,6 +122,14 @@ function signOut() {
 const RATE_CACHE_KEY = 'hkRate_v1';
 const RATE_TTL_MS    = 6 * 60 * 60 * 1000; // 6 小時
 
+async function refreshRate() {
+  localStorage.removeItem(RATE_CACHE_KEY);
+  const btn = document.getElementById('rateRefreshBtn');
+  if (btn) { btn.classList.add('spinning'); btn.disabled = true; }
+  await initRateBar();
+  if (btn) { btn.classList.remove('spinning'); btn.disabled = false; }
+}
+
 async function initRateBar() {
   const el = document.getElementById('rateDisplay');
   el.textContent = '載入中…';
